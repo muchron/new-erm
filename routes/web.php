@@ -17,14 +17,3 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/operasi', [OperasiController::class, 'index']);
 Route::get('/operasi/json', [OperasiController::class, 'json']);
-
-Route::get('/test', function () {
-    $data = Operasi::all();
-    foreach ($data as $data) {
-        dd(
-            // $data->dokter->nama . " <br>" .
-            // $data->dokterAnestesi->nama . " <br>" .
-            $data->pembiayaan->png_jawab
-        );
-    }
-});

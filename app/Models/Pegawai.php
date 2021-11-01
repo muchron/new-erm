@@ -13,6 +13,6 @@ class Pegawai extends Model
 
     public function pegawai()
     {
-        return $this->hasMany(Operasi::class);
+        return $this->hasMany(Operasi::class, 'nik', 'asisten1');
     }
 }

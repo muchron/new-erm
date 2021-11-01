@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Dokter;
+use App\Models\Penjab;
 use App\Models\Pegawai;
+use App\Models\RegPeriksa;
+use App\Models\PaketOperasi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,19 +33,19 @@ class Operasi extends Model
     }
     public function dokter()
     {
-        return $this->belongsTo(Pegawai::class, 'operator1', 'nik');
+        return $this->belongsTo(Dokter::class, 'operator1', 'kd_dokter');
     }
-    public function assisten1()
+    public function asisten1()
     {
         return $this->belongsTo(Pegawai::class, 'asisten_operator1', 'nik');
     }
-    public function assisten2()
+    public function asisten2()
     {
         return $this->belongsTo(Pegawai::class, 'asisten_operator2', 'nik');
     }
     public function dokterAnestesi()
     {
-        return $this->belongsTo(Pegawai::class, 'dokter_anestesi', 'nik');
+        return $this->belongsTo(Dokter::class, 'dokter_anestesi', 'kd_dokter');
     }
     public function asistenAnestesi()
     {
@@ -49,6 +53,6 @@ class Operasi extends Model
     }
     public function dokterAnak()
     {
-        return $this->belongsTo(Pegawai::class, 'dokter_pjanak', 'nik');
+        return $this->belongsTo(Dokter::class, 'dokter_pjanak', 'kd_dokter');
     }
 }
