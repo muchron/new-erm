@@ -18,11 +18,8 @@
                                         <th>Nomor Rawat</th>
                                         <th>Tanggal Operasi</th>
                                         <th>Nama Operasi</th>
-                                        <th>Dokter</th>
-                                        <th>Asisten 1</th>
-                                        <th>Asisten 2</th>
+                                        <th>Dokter Operasi</th>
                                         <th>Dok. Anestesi</th>
-                                        <th>Asiten 1</th>
                                         <th>Dok. Anak</th>
                                         <th>Pembiayaan</th>
                                     </tr>
@@ -37,10 +34,10 @@
 @endsection
 
 @push('scripts')
-{{-- <script>
+<script>
 $(function() {
     var table = $('#table-operasi').DataTable({
-        processing: true,   
+        // processing: true,   
         serverSide: true,
         ajax: 'operasi/json',
         lengthChange: false,
@@ -48,8 +45,8 @@ $(function() {
         // order:[[1, 'asc']],
         scrollY: "350px",
         scrollX: true,
-        scrollCollapse: false,
-        responsive: true,
+        scrollCollapse: true,
+        // responsive: true,
         paging:false,
         dom: 'Bfrtip',
         buttons: [
@@ -68,15 +65,33 @@ $(function() {
             { data: 'no_rawat', name: 'no_rawat',},
             { data: 'tgl_operasi', name: 'tgl_operasi',},
             { data: 'nama_operasi', name: 'nama_operasi',},
-            { data: 'dokter', name: 'dokter',},
-            { data: 'asisten1', name: 'asisten1',},
-            { data: 'asisten2', name: 'asisten2',},
-            { data: 'dokterAnestesi', name: 'dokterAnestesi',},
-            { data: 'asistenAnestesi', name: 'asistenAnestesi',},
+            
+            {
+                target:[3],
+                data: 'dokter',
+                render: function(data, type, row, meta){
+                    return '<b class="text-red">OP</b> : '+row.dokter+'<br>'+
+                    '<b>AS 1</b> : '+row.asisten1+'<br>'+
+                    '<b>AS 2</b> : '+row.asisten2
+
+                }
+
+            },
+            
+            {
+                target:[2],
+                data: 'dokterAnestesi',
+                render: function(data, type, row, meta){
+                    return '<b class="text-red">OP</b> : '+row.dokterAnestesi+'<br>'+
+                    '<b>AS 1</b> : '+row.asistenAnestesi
+                }
+
+            },
+            // { data: 'dokterAnestesi', name: 'dokterAnestesi',},
             { data: 'dokterAnak', name: 'dokterAnak',},
             { data: 'pembiayaan', name: 'pembiayaan',},
         ],
     });    
 });
-</script> --}}
+</script>
 @endpush

@@ -17,16 +17,7 @@ class OperasiController extends Controller
     }
     public function json()
     {
-        $data = Operasi::with([
-            'pembiayaan',
-            'paketOperasi',
-            'dokter',
-            'asisten1',
-            'asisten2',
-            'dokterAnestesi',
-            'asistenAnestesi',
-            'dokterAnak',
-        ])->get();
+        $data = Operasi::all()->take(50);
         return DataTables::of($data)
             ->editColumn('nama_operasi', function ($data) {
                 return $data->paketOperasi->nm_perawatan;
@@ -35,10 +26,10 @@ class OperasiController extends Controller
                 return $data->dokter->nm_dokter;
             })
             ->editColumn('asisten1', function ($data) {
-                // return $data->asisten1->nama;
+                return $data->asisten1->nama;
             })
             ->editColumn('asisten2', function ($data) {
-                // return $data->asisten2->nama;
+                return $data->asisten2->nama;
             })
             ->editColumn('dokterAnestesi', function ($data) {
                 return $data->dokterAnestesi->nm_dokter;

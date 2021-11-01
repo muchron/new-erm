@@ -15,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/operasi', [OperasiController::class, 'index']);
 Route::get('/operasi/json', [OperasiController::class, 'json']);
