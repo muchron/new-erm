@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\OperasiController;
+use App\Models\DiagnosaPasien;
 use App\Models\Operasi;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,9 @@ Route::get('/', function () {
 });
 Route::get('/operasi', [OperasiController::class, 'index']);
 Route::get('/operasi/json', [OperasiController::class, 'json']);
+
+Route::get('/rekammedis', [DiagnosaPasienController::class, 'index']);
+
 
 Route::get('/test', function () {
     $data = Operasi::all()->take(10);

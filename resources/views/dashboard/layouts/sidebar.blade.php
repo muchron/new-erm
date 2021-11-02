@@ -5,8 +5,8 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-header"><i class="nav-icon fas fa-th"></i> REKAM MEDIS</li>
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
+        <li class="nav-item has-treeview {{Request::is('rekammedis*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('rekammedis*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-copy"></i>
             <p>
               Laporan Rekam Medis
@@ -36,7 +36,7 @@
         </li>
         <li class="nav-header"><i class="nav-icon far fa-envelope"></i> OPERASI</li>
         <li class="nav-item has-treeview {{Request::is('operasi*') ? 'menu-is-opening menu-open' : '' }}">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link {{Request::is('operasi*') ? 'active' : '' }}">
             <i class="nav-icon far fa-envelope"></i>
             <p>
               Laporan Operasi

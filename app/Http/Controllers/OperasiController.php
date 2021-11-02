@@ -13,6 +13,7 @@ class OperasiController extends Controller
     {
         return view('dashboard.content.operasi.list_operasi', [
             'title' => 'Data Operasi',
+            'bigTitle' => 'Operasi',
         ]);
     }
     public function json(Request $request)
