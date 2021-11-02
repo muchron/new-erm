@@ -15,10 +15,20 @@ class OperasiController extends Controller
             'title' => 'Data Operasi',
         ]);
     }
-    public function json()
+    public function json(Request $request)
     {
-        $data = Operasi::all()->take(50);
+        $data = '';
+        if ($request->ajax()) {
+            if (!empty($request->tgl_pertama) || !empty($request->tgl_kedua)) {
+                $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama, $request->tgl_kedua])->get();
+            } else {
+                $data = Operasi::where('tgl_operasi', '>=', Carbon::now())->get();
+            }
+        }
         return DataTables::of($data)
+            ->editColumn('tgl_operasi', function ($data) {
+                return Carbon::parse($data->tgl_operasi)->translatedFormat('d F Y (H:i:s)');
+            })
             ->editColumn('nama_operasi', function ($data) {
                 return $data->paketOperasi->nm_perawatan;
             })
@@ -39,6 +49,9 @@ class OperasiController extends Controller
             })
             ->editColumn('dokterAnak', function ($data) {
                 return $data->dokterAnak->nm_dokter;
+            })
+            ->editColumn('omloop', function ($data) {
+                return $data->omloops->nama;
             })
             ->editColumn('pembiayaan', function ($data) {
                 return $data->pembiayaan->png_jawab;

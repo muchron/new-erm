@@ -16,7 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard.layouts.main');
 });
 Route::get('/operasi', [OperasiController::class, 'index']);
 Route::get('/operasi/json', [OperasiController::class, 'json']);
+
+Route::get('/test', function () {
+    $data = Operasi::all()->take(10);
+
+    foreach ($data as $data) {
+        dd($data->omloops->nama);
+    }
+});

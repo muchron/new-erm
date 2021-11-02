@@ -35,7 +35,7 @@
           </ul>
         </li>
         <li class="nav-header"><i class="nav-icon far fa-envelope"></i> OPERASI</li>
-        <li class="nav-item has-treeview">
+        <li class="nav-item has-treeview {{Request::is('operasi*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link">
             <i class="nav-icon far fa-envelope"></i>
             <p>
@@ -45,7 +45,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="pages/mailbox/mailbox.html" class="nav-link">
+              <a href="{{'/operasi'}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Operasi</p>
               </a>

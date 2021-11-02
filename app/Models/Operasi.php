@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Dokter;
 use App\Models\Penjab;
 use App\Models\Pegawai;
+use App\Models\Petugas;
 use App\Models\RegPeriksa;
 use App\Models\PaketOperasi;
 use Illuminate\Database\Eloquent\Model;
@@ -42,6 +43,10 @@ class Operasi extends Model
     public function asisten2()
     {
         return $this->belongsTo(Pegawai::class, 'asisten_operator2', 'nik');
+    }
+    public function omloops()
+    {
+        return $this->belongsTo(Petugas::class, 'omloop', 'nip');
     }
     public function dokterAnestesi()
     {
