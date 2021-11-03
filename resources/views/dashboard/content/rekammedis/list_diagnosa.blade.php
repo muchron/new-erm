@@ -37,7 +37,7 @@
                               </div>
                         </div>
                         <div class="col-1">
-                            <button class="btn btn-info" style="width: 100%"><i class="fas fa-search"></i> Cari</button>
+                            <button class="btn btn-info text-sm"><i class="fas fa-search"></i> Cari</button>
                         </div>
                     </div>
                 </div>
@@ -50,12 +50,44 @@
                 <div class="card-header">
                     <p class="card-title border-bottom-0">{{$title}}</p>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="table-diagnosa" style="width: 100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Kode Diagnosa</th>
+                                            <th>Nama Penyakit</th>
+                                            <th>Status Rawat</th>
+                                            <th>Jumlah</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function(){
+        $('#table-diagnosa').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'rekammedis/json',
+            columns:[
+                {data:'kd_penyakit', name:'kd_penyakit'},
+                {data:'nm_penyakit', name:'nm_penyakit'},
+                {data:'status', name:'status'},
+                {data:'jumlah', name:'jumlah'},
+            ]
+    });
+    });
+</script>
     
 @endpush

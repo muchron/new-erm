@@ -9,4 +9,8 @@ class RegPeriksa extends Model
 {
     use HasFactory;
     protected $table = "reg_periksa";
+    public function diagnosaPasien()
+    {
+        return $this->hasMany(DiagnosaPasien::class);
+    }
 }

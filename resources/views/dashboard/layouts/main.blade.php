@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>E-RM | Dashboard</title>
+  <title>E-RM | {{is_null($bigTitle) ? 'Dashboard' : $bigTitle}}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon-->
+  <link href="https://rsiaaisyiyah.com/templates/ja_medicare/favicon.ico" rel="icon" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->

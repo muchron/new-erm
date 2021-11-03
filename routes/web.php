@@ -29,6 +29,7 @@ Route::get('/operasi', [OperasiController::class, 'index']);
 Route::get('/operasi/json', [OperasiController::class, 'json']);
 
 Route::get('/rekammedis', [DiagnosaPasienController::class, 'index']);
+Route::get('/rekammedis/json', [DiagnosaPasienController::class, 'json']);
 
 
 Route::get('/test', function () {
