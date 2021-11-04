@@ -118,7 +118,7 @@ $(document).ready(function(){
                 { data: 'pembiayaan', name: 'pembiayaan',},
             ],
         });  
-    }  
+    }     
 
     $('#cari').click(function(){
         var tgl_pertama = $('#tgl_pertama').val();

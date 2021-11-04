@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Dokter;
+use App\Models\DiagnosaPasien;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RegPeriksa extends Model
 {
@@ -11,6 +13,11 @@ class RegPeriksa extends Model
     protected $table = "reg_periksa";
     public function diagnosaPasien()
     {
-        return $this->hasMany(DiagnosaPasien::class);
+        return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
+    }
+
+    public function dokter()
+    {
+        return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
     }
 }

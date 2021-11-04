@@ -15,8 +15,8 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="pages/layout/top-nav.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+              <a href="/rekammedis" class="nav-link">
+                <i class="nav-icon {{Request::is('rekammedis') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>10 Besar Penyakit</p>
               </a>
             </li>
@@ -46,7 +46,7 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{'/operasi'}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="far fa-circle nav-icon {{Request::is('operasi') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>Operasi</p>
               </a>
             </li>
