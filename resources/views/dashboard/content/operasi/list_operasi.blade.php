@@ -75,11 +75,9 @@ $(document).ready(function(){
             ajax: {url:'operasi/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua} },
             lengthChange: false,
             orderable:false,
-            // order:[[1, 'asc']],
             scrollY: "350px",
             scrollX: true,
             scrollCollapse: true,
-            // responsive: true,
             paging:false,
             dom: 'Bfrtip',
             buttons: [

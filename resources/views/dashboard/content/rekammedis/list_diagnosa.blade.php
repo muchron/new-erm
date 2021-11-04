@@ -83,6 +83,25 @@
             serverSide: true,
             ajax: {url:'rekammedis/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, status:status, kategori:kategori} },
             order: [[ 3, "desc" ]],
+            lengthChange: false,
+            orderable:false,
+            scrollY: "350px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging:false,
+            dom: 'Bfrtip',
+            buttons: [
+                {extend: 'copy', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+                {extend: 'csv', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+                {extend: 'excel', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+                {extend: 'pdf', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}', exportOptions: {
+                    modifier: {
+                        search: 'applied',
+                        order: 'applied'
+                    }
+                }},
+                {extend: 'print', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+            ],
             columns:[
                 {data:'kd_penyakit', name:'kd_penyakit'},
                 {data:'nm_penyakit', name:'nm_penyakit'},
