@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OperasiController;
 use App\Http\Controllers\DiagnosaPasienController;
+use App\Http\Controllers\LaporanDiagnosaDinkesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::get('/operasi/json', [OperasiController::class, 'json']);
 
 Route::get('/rekammedis', [DiagnosaPasienController::class, 'index']);
 Route::get('/rekammedis/json', [DiagnosaPasienController::class, 'json']);
+Route::get('/rekammedis/dinkes', [LaporanDiagnosaDinkesController::class, 'index']);
 
 
 Route::get('/test', function () {

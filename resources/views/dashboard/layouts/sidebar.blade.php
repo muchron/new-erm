@@ -21,8 +21,8 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/layout/boxed.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+              <a href="/rekammedis/dinkes" class="nav-link">
+                <i class="nav-icon {{Request::is('rekammedis/dinkes') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>Laporan Dinkes</p>
               </a>
             </li>
