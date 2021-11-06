@@ -112,6 +112,7 @@
         }
 
         $('#cari').click(function(){
+            
             var tgl_pertama = $('#tgl_pertama').val();
             var tgl_kedua = $('#tgl_kedua').val();
             var status = '';    
@@ -123,7 +124,7 @@
                 
             }
             var kategori = '%'+$('#kategori').val()+'%';
-            console.log(tgl_pertama, tgl_kedua, status, kategori);
+            
             if (tgl_pertama != '' &&  tgl_kedua != '' && status!='' && kategori!=''){
                 $('#table-diagnosa').DataTable().destroy();
                 toastr.success('Pencarian Selesai');

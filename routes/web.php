@@ -32,7 +32,9 @@ Route::get('/operasi/json', [OperasiController::class, 'json']);
 
 Route::get('/rekammedis', [DiagnosaPasienController::class, 'index']);
 Route::get('/rekammedis/json', [DiagnosaPasienController::class, 'json']);
+
 Route::get('/rekammedis/dinkes', [LaporanDiagnosaDinkesController::class, 'index']);
+Route::get('/rekammedis/dinkes/json', [LaporanDiagnosaDinkesController::class, 'json']);
 
 
 Route::get('/test', function () {
@@ -40,14 +42,16 @@ Route::get('/test', function () {
         ->where('prioritas', 1)
         ->with('regPeriksa.dokter.spesialis')
         ->where('status', 'ralan')
+        ->whereIn('kd_penyakit', ['J06.9', 'A09.9', 'J18.0'])
         ->whereHas('regPeriksa', function ($query) {
-            $query->whereBetween('tgl_registrasi', ['2021-11-01', '2021-11-30']);
+            $query->whereBetween('tgl_registrasi', ['2021-01-01', '2021-01-31']);
         })
         ->whereHas('regPeriksa.dokter.spesialis', function ($query) {
             $query->where('nm_sps', 'like', '%anak%');
         })
         ->groupBy('kd_penyakit')
-        ->take(10)
+        ->orderBy('jumlah', 'desc')
+        ->limit(10)
         ->get();
     return json_encode($data);
 });
