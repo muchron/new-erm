@@ -52,6 +52,24 @@
             </li>
           </ul>
         </li>
+        <li class="nav-header"><i class="fas fa-clinic-medical"></i> IGD</li>
+        <li class="nav-item has-treeview {{Request::is('igd*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('igd*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-clinic-medical"></i>
+            <p>
+              Kunjungan IGD
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{'/igd'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('igd') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Rekap Kunjungan IGD</p>
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

@@ -5,6 +5,7 @@ use App\Models\DiagnosaPasien;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OperasiController;
+use App\Http\Controllers\LaporanIGDController;
 use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\LaporanDiagnosaDinkesController;
 
@@ -35,6 +36,9 @@ Route::get('/rekammedis/json', [DiagnosaPasienController::class, 'json']);
 
 Route::get('/rekammedis/dinkes', [LaporanDiagnosaDinkesController::class, 'index']);
 Route::get('/rekammedis/dinkes/json', [LaporanDiagnosaDinkesController::class, 'json']);
+
+Route::get('/igd', [LaporanIGDController::class, 'index']);
+Route::get('/igd/json', [LaporanIGDController::class, 'json']);
 
 
 Route::get('/test', function () {
