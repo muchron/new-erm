@@ -11,16 +11,18 @@ class LaporanIGDController extends Controller
 {
     public function index()
     {
+        $tanggal = new Carbon('first day of this month');
         return view('dashboard.content.igd.laporan', [
             'title' => 'Laporan IGD',
-            'bigTitle' => 'Laporan IGD'
+            'bigTitle' => 'Laporan IGD',
+            'month' => $tanggal->monthName,
         ]);
     }
 
     public function json(Request $request)
     {
         $data = '';
-        $tanggal = new Carbon('first day of last month');
+        $tanggal = new Carbon('first day of this month');
         if ($request->ajax()) {
             if (!empty($request->tgl_pertama) || !empty($request->tgl_kedua)) {
                 $data = RegPeriksa::select(DB::raw("*, SUM(status_lanjut = 'Ranap') as ranap, SUM(status_lanjut = 'Ralan') as ralan"))
