@@ -45,6 +45,10 @@
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
 
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="https://sim.rsiaaisyiyah.com/rsiap/assets/images/rsiap.ico" alt="AdminLTELogo" height="60" width="60">
+    <h2 class="m-3 animation__shake">E-REKAM MEDIK</h2>
+  </div>
   <!-- Navbar -->
   @include('dashboard.layouts.navbar')
   <!-- /.navbar -->
@@ -118,7 +122,7 @@
 <!-- Bootstrap 4 -->
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
-<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
 <!-- Sparkline -->
 <script src="{{asset('plugins/sparklines/sparkline.js')}}"></script>
 <!-- JQVMap -->
