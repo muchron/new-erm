@@ -14,12 +14,12 @@
 
                         <div class="col-4">
                             <div class="input-group">
-                                <input type="date" class="form-control" id="tgl_pertama" name="tgl_pertama" value="{{date('Y-m-d')}}"/>
+                                <input type="date" class="form-control" id="tgl_pertama" name="tgl_pertama" value="{{$dateStart}}"/>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="input-group">
-                                <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{date('Y-m-d')}}"/>
+                                <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{$dateNow}}"/>
                             </div>
                         </div>
                         <div class="col-4">

@@ -11,19 +11,28 @@ class OperasiController extends Controller
 {
     public function index()
     {
+        $tanggal = new Carbon('this month');
+        $sekarang = $tanggal->now();
+        $awalBulan = $tanggal->startOfMonth();
         return view('dashboard.content.operasi.list_operasi', [
             'title' => 'Data Operasi',
             'bigTitle' => 'Operasi',
+            'month' => $awalBulan->translatedFormat('d F Y') . ' s/d ' . $sekarang->translatedFormat('d F Y'),
+            'dateNow' => $sekarang->toDateString(),
+            'dateStart' => $awalBulan->toDateString()
         ]);
     }
     public function json(Request $request)
     {
         $data = '';
+        $tanggal = new Carbon('this month');
+        $sekarang = $tanggal->now();
+        $awalBulan = $tanggal->startOfMonth();
         if ($request->ajax()) {
             if (!empty($request->tgl_pertama) || !empty($request->tgl_kedua)) {
                 $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama, $request->tgl_kedua])->get();
             } else {
-                $data = Operasi::where('tgl_operasi', '>=', Carbon::now())->get();
+                $data = Operasi::whereBetween('tgl_operasi', [$awalBulan->toDateString(), $sekarang->toDateString()])->get();
             }
         }
         return DataTables::of($data)
