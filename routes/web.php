@@ -23,7 +23,7 @@ use App\Http\Controllers\LaporanDiagnosaPenyakitController;
 
 Route::get('/', function () {
     return view(
-        'dashboard.layouts.main',
+        'dashboard.content.beranda.diagram_penyakit',
         [
             'bigTitle' => 'Halaman Depan'
         ]
