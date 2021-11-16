@@ -28,7 +28,7 @@
             </li>
             <li class="nav-item">
               <a href="/rekammedis/penyakit" class="nav-link">
-                <i class="nav-icon {{Request::is('rekammedis/dinkes') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <i class="nav-icon {{Request::is('rekammedis/penyakit') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>Laporan Diagnosa Penyakit</p>
               </a>
             </li>

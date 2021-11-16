@@ -39,7 +39,7 @@ Route::get('/rekammedis/dinkes', [LaporanDiagnosaDinkesController::class, 'index
 Route::get('/rekammedis/dinkes/json', [LaporanDiagnosaDinkesController::class, 'json']);
 
 Route::get('/rekammedis/penyakit', [LaporanDiagnosaPenyakitController::class, 'index']);
-Route::get('/rekammedis/dinkes/json', [LaporanDiagnosaPenyakitController::class, 'json']);
+Route::get('/rekammedis/penyakit/json', [LaporanDiagnosaPenyakitController::class, 'json']);
 
 Route::get('/igd', [LaporanIGDController::class, 'index']);
 Route::get('/igd/json', [LaporanIGDController::class, 'json']);

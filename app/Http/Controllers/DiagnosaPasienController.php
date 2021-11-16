@@ -12,11 +12,15 @@ class DiagnosaPasienController extends Controller
 {
     public function index()
     {
+        $date = new Carbon('this month');
         return view(
             'dashboard.content.rekammedis.list_diagnosa',
             [
                 'title' => 'Data Rekam Medis',
                 'bigTitle' => 'Rekam Medis',
+                'month' => $date->monthName,
+                'dateStart' => $date->startOfMonth()->toDateString(),
+                'dateNow' => $date->now()->toDateString()
             ]
         );
     }

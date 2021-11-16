@@ -14,12 +14,12 @@
 
                         <div class="col-4">
                             <div class="input-group">
-                                <input type="date" class="form-control" id="tgl_pertama" name="tgl_pertama" value="{{date('Y-m-d')}}"/>
+                                <input type="date" class="form-control" id="tgl_pertama" name="tgl_pertama" value="{{$dateStart}}"/>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="input-group">
-                                <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{date('Y-m-d')}}"/>
+                                <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{$dateNow}}"/>
                             </div>
                         </div>
                         <div class="col-4">
@@ -33,7 +33,10 @@
     <div class="col-12">
         <div class="card card-teal">
             <div class="card-header">
-            <h3 class="card-title">{{$title}}</h3>
+                <h3 class="card-title">{{$title}}</h3>
+                <div class="card-tools mr-4" id="bulan">
+                    <span><strong>{{$month}}</strong></span>
+                </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -70,11 +73,10 @@ $(document).ready(function(){
 
     function load_data(tgl_pertama='', tgl_kedua=''){
         $('#table-operasi').DataTable({
-            // processing: true,   
+            processing: true,   
             serverSide: true,
             ajax: {url:'operasi/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua} },
             lengthChange: false,
-            orderable:false,
             scrollY: "350px",
             scrollX: true,
             scrollCollapse: true,
