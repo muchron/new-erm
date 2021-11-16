@@ -56,7 +56,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-light-teal nav-sidebar flex-column" elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="/" class="brand-link">
       <img src="https://sim.rsiaaisyiyah.com/rsiap/assets/images/rsiap.ico" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
       <span class="brand-text font-weight-light">E-REKAM MEDIK</span>
     </a>
@@ -96,10 +96,10 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>&copy; {{date('Y')}}</strong>
+    <a href="https://rsiaaisyiyah.com/">RSIA Aisyiyah Pekajagan</a>.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.0
+      <b>Version</b> 1.0.0
     </div>
   </footer>
 
