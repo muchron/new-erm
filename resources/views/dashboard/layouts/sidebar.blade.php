@@ -70,6 +70,24 @@
             </li>
           </ul>
         </li>
+        <li class="nav-header"><i class="fas fa-clinic-medical"></i> Poli</li>
+        <li class="nav-item has-treeview {{Request::is('igd*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('igd*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-clinic-medical"></i>
+            <p>
+              Kunjungan Rawat Jalan
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{'/kunjungan'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('igd') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Status Lama / Baru</p>
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

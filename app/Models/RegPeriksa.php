@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Dokter;
+use App\Models\Pasien;
+use App\Models\Poliklinik;
 use App\Models\DiagnosaPasien;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,5 +21,15 @@ class RegPeriksa extends Model
     public function dokter()
     {
         return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
+    }
+
+    public function pasien()
+    {
+        return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
+    }
+
+    public function poli()
+    {
+        return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
     }
 }

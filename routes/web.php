@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OperasiController;
 use App\Http\Controllers\LaporanIGDController;
 use App\Http\Controllers\DiagnosaPasienController;
+use App\Http\Controllers\KunjunganRalanController;
 use App\Http\Controllers\LaporanDiagnosaDinkesController;
 use App\Http\Controllers\LaporanDiagnosaPenyakitController;
+use App\Models\Pasien;
+use App\Models\RegPeriksa;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,22 +47,25 @@ Route::get('/rekammedis/penyakit/json', [LaporanDiagnosaPenyakitController::clas
 Route::get('/igd', [LaporanIGDController::class, 'index']);
 Route::get('/igd/json', [LaporanIGDController::class, 'json']);
 
+Route::get('/kunjungan', [KunjunganRalanController::class, 'index']);
+Route::get('/kunjungan/json', [KunjunganRalanController::class, 'json']);
+
 
 Route::get('/test', function () {
-    $data = DiagnosaPasien::select('*', DB::raw('count(kd_penyakit) as jumlah'))
-        ->where('prioritas', 1)
-        ->with('regPeriksa.dokter.spesialis')
-        ->where('status', 'ralan')
-        ->whereIn('kd_penyakit', ['J06.9', 'A09.9', 'J18.0'])
-        ->whereHas('regPeriksa', function ($query) {
-            $query->whereBetween('tgl_registrasi', ['2021-01-01', '2021-01-31']);
+    $data = RegPeriksa::with('pasien', 'pasien.kelurahan', 'pasien.kecamatan', 'pasien.kabupaten', 'dokter', 'dokter.spesialis')
+        ->where('status_poli', 'Lama')
+        ->whereBetween('tgl_registrasi', ['2020-01-01', '2021-12-31'])
+        ->wherehas('dokter.spesialis', function ($query) {
+            $query->where('kd_sps', 'S0001');
         })
-        ->whereHas('regPeriksa.dokter.spesialis', function ($query) {
-            $query->where('nm_sps', 'like', '%anak%');
+        ->wherehas('dokter', function ($query) {
+            $query->where('kd_dokter', '1.101.1112');
         })
-        ->groupBy('kd_penyakit')
-        ->orderBy('jumlah', 'desc')
         ->limit(10)
         ->get();
-    return json_encode($data);
+
+    foreach ($data as $data) {
+        return json_encode($data->dokter->nm_dokter);
+    }
+    // return json_encode($data);
 });
