@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OperasiController;
 use App\Http\Controllers\LaporanIGDController;
 use App\Http\Controllers\DiagnosaPasienController;
+use App\Http\Controllers\DokterController;
 use App\Http\Controllers\KunjunganRalanController;
 use App\Http\Controllers\LaporanDiagnosaDinkesController;
 use App\Http\Controllers\LaporanDiagnosaPenyakitController;
+use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\RegPeriksa;
 
@@ -50,22 +52,25 @@ Route::get('/igd/json', [LaporanIGDController::class, 'json']);
 Route::get('/kunjungan', [KunjunganRalanController::class, 'index']);
 Route::get('/kunjungan/json', [KunjunganRalanController::class, 'json']);
 
+Route::get('/poli/{kd_sps}', function ($kd_sps) {
+    $dokter = Dokter::all()
+        ->where('kd_sps',  $kd_sps)
+        ->where('status', 1);
+    return response()->json($dokter);
+});
 
 Route::get('/test', function () {
+
     $data = RegPeriksa::with('pasien', 'pasien.kelurahan', 'pasien.kecamatan', 'pasien.kabupaten', 'dokter', 'dokter.spesialis')
-        ->where('status_poli', 'Lama')
-        ->whereBetween('tgl_registrasi', ['2020-01-01', '2021-12-31'])
-        ->wherehas('dokter.spesialis', function ($query) {
-            $query->where('kd_sps', 'S0001');
-        })
+        ->where('status_poli', 'Baru')
+        ->whereBetween('tgl_registrasi', ['2021-11-17', '2021-11-17'])
         ->wherehas('dokter', function ($query) {
-            $query->where('kd_dokter', '1.101.1112');
+            $query->whereIn('kd_sps', ['S0001', 'S0003']);
         })
-        ->limit(10)
         ->get();
 
-    foreach ($data as $data) {
-        return json_encode($data->dokter->nm_dokter);
-    }
+    // foreach ($data as $data) {
+    return json_encode($data);
+    // }
     // return json_encode($data);
 });

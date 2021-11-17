@@ -32,4 +32,9 @@ class RegPeriksa extends Model
     {
         return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
     }
+
+    public function spesialis()
+    {
+        return $this->hasOneThrough(Spesialis::class, Dokter::class, 'kd_sps', 'kd_sps', 'kd_dokter');
+    }
 }
