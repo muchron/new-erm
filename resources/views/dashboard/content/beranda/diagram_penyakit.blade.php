@@ -30,7 +30,7 @@
 <script>
     var diagramPenytakit = document.getElementById("lineChart");
     var dataFirst = {
-        label: "Car A - Speed (mph)",
+        label: "A09.9 - Diare Akut, Dehidrasi Ringan Sedang",
         data: [0, 59, 75, 20, 20, 55, 40],
         lineTension: 0,
         borderWidth : 2,
@@ -39,7 +39,7 @@
     };
 
     var dataSecond = {
-        label: "Car B - Speed (mph)",
+        label: "J06.9 - Acute upper respiratory infection, unspecified",
         data: [20, 15, 60, 60, 65, 30, 70],
         lineTension: 0,
         borderWidth : 2,
@@ -47,9 +47,18 @@
         borderColor: 'salmon'
     };
 
+    var dataThird = {
+        label: "J18.0- Acute upper respiratory infection, unspecified",
+        data: [20, 15, 60, 60, 65, 30, 70],
+        lineTension: 0,
+        borderWidth : 2,
+        fill: false,
+        borderColor: 'orange'
+    };
+
     var dataPenyakit = {
-    labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"],
-    datasets: [dataFirst, dataSecond]
+    labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+    datasets: [dataFirst, dataSecond, dataThird]
     };
 
     var chartOptions = {

@@ -63,7 +63,7 @@ Route::get('/test', function () {
 
     $data = RegPeriksa::with('pasien', 'pasien.kelurahan', 'pasien.kecamatan', 'pasien.kabupaten', 'dokter', 'dokter.spesialis')
         ->where('status_poli', 'Baru')
-        ->whereBetween('tgl_registrasi', ['2021-11-17', '2021-11-17'])
+        ->whereBetween('tgl_registrasi', ['2021-01-01', '2021-11-17'])
         ->wherehas('dokter', function ($query) {
             $query->whereIn('kd_sps', ['S0001', 'S0003']);
         })
