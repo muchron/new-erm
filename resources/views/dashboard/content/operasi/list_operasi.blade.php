@@ -12,17 +12,29 @@
                     <label>Date:</label>
                     <div class="row">
 
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="input-group">
                                 <input type="date" class="form-control" id="tgl_pertama" name="tgl_pertama" value="{{$dateStart}}"/>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="input-group">
                                 <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{$dateNow}}"/>
                             </div>
                         </div>
                         <div class="col-4">
+                            <div class="form-group clearfix mt-2">
+                                <div class="icheck-teal d-inline">
+                                  <input type="radio" name="operasi" id="sc" value="SC">
+                                  <label for="sc">Sectio Caesaria (SC)</label>
+                                </div>
+                                <div class="icheck-teal d-inline">
+                                  <input type="radio" name="operasi" id="normal" value="normal">
+                                  <label for="normal">Partus Normal</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
                             <button class="btn btn-info" id="cari"><i class="fas fa-search"></i> Cari</button>
                         </div>
                     </div>
@@ -71,11 +83,11 @@ $(document).ready(function(){
 
     load_data();
 
-    function load_data(tgl_pertama='', tgl_kedua=''){
+    function load_data(tgl_pertama='', tgl_kedua='', operasi=''){
         $('#table-operasi').DataTable({
             processing: true,   
             serverSide: true,
-            ajax: {url:'operasi/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua} },
+            ajax: {url:'operasi/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, operasi:operasi} },
             lengthChange: false,
             scrollY: "350px",
             scrollX: true,
@@ -123,10 +135,20 @@ $(document).ready(function(){
     $('#cari').click(function(){
         var tgl_pertama = $('#tgl_pertama').val();
         var tgl_kedua = $('#tgl_kedua').val();
+        var operasi = '';
+
+        if ($('#sc').is(":checked")){
+            operasi= 'SC';    
+        }else if($('#normal').is(":checked")){
+            operasi = 'normal';       
+        }
+        
+        console.log(operasi);
+
         if (tgl_pertama != '' &&  tgl_kedua != ''){
             $('#table-operasi').DataTable().destroy();
                 toastr.success('Pencarian Selesai');
-                load_data(tgl_pertama, tgl_kedua);
+                load_data(tgl_pertama, tgl_kedua, operasi);
                 
         }else{
             alert('Both Date is required');

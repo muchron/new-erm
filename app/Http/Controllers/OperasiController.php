@@ -30,9 +30,23 @@ class OperasiController extends Controller
         $awalBulan = $tanggal->startOfMonth();
         if ($request->ajax()) {
             if (!empty($request->tgl_pertama) || !empty($request->tgl_kedua)) {
-                $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama, $request->tgl_kedua])->get();
+                $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama, $request->tgl_kedua])
+                    ->whereHas('paketOperasi', function ($query) use ($request) {
+                        if ($request->operasi == 'SC') {
+                            $query->where('nm_perawatan', 'like', '%SC%');
+                            $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
+                        } else {
+                            $query->where('nm_perawatan', 'not like', '%partus%');
+                            $query->where('nm_perawatan', 'not like', '%normal%');
+                        }
+                    });
             } else {
-                $data = Operasi::whereBetween('tgl_operasi', [$awalBulan->toDateString(), $sekarang->toDateString()])->get();
+                $data = Operasi::with('paketOperasi')
+                    ->whereBetween('tgl_operasi', [$awalBulan->toDateString(), $sekarang->toDateString()]);
+                // ->whereHas('paketOperasi', function ($query) {
+                //     $query->where('nm_perawatan', 'like', '%SC%');
+                //     $query->orWhere('nm_perawatan', 'not like', '%Sectio Caesaria%');
+                // });;
             }
         }
         return DataTables::of($data)
