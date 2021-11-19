@@ -32,6 +32,7 @@ class KunjunganRalanController extends Controller
         if ($request->ajax()) {
             if (!empty($request->tgl_pertama) && !empty($request->tgl_kedua)) {
                 $data = RegPeriksa::where('stts_daftar', 'like', '%' . $request->status . '%')
+                    ->where('stts', '!=', 'Batal')
                     ->whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
                     ->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
                     ->whereHas('dokter', function ($query) use ($request) {
@@ -39,15 +40,14 @@ class KunjunganRalanController extends Controller
                     });
             } else {
                 $data = RegPeriksa::whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
+                    ->where('stts', '!=', 'Batal')
                     ->whereHas('dokter', function ($query) {
                         $query->whereIn('kd_sps', ['S0001', 'S0003']);
                     })
                     ->where('tgl_registrasi',  $tanggal->now()->toDateString());
             }
         }
-        // return json_encode($data);
 
-        // return DataTables::queryBuilder($data)->toJson();
         return DataTables::of($data)
             ->editColumn('tgl_registrasi', function ($data) {
                 return Carbon::parse($data->tgl_registrasi)->translatedFormat('d F Y');

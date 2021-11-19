@@ -63,7 +63,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered"  id="table-kunjungan" style="width: 100%" cellspacing="0">
                                     <thead>
-                                        <tr>
+                                        <tr >
                                             <th>Tanggal Registrasi</th>
                                             <th>Nama Pasien</th>
                                             <th>Tanggal Lahir</th>
@@ -119,10 +119,12 @@
             $('#table-kunjungan').DataTable({
             processing: true,
             serverSide: true,
-            destroy: true,
+            // destroy: true,
+            deferRender:    true,
             ajax: {
                 url:'/kunjungan/json',
                 dataType:'json',
+                // type : 'POST',
                 data: {
                         tgl_pertama:tgl_pertama,
                         tgl_kedua:tgl_kedua,
@@ -134,12 +136,16 @@
             // order: [[ 0, "ASC" ]],
             lengthChange: false,
             ordering:false,
-            searching : false,
-            scrollY: "350px",
+            searching : true,
+            scrollY: 500,
             scrollX: true,
-            scrollCollapse: true,
+            scroller : {
+                loadingIndicator: true
+            },
+
             paging:true,
-            dom: 'Bfrtip',
+            // dom: 'Bfrtip',
+            dom: "frtiS",
             language: {
                     processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>'
                 },
