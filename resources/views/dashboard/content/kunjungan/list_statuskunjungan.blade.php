@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-2">
                             <div class="form-group">
-                                <select class="custom-select form-control-border" id="poli" name="kategori">
+                                <select class="custom-select form-control-border" id="poli" name="poli">
                                   <option value="" hidden>Pilih Poli</option>
                                   <option value="S0003">Anak</option>
                                   <option value="S0001">Kandungan dan Kebidanan</option>
@@ -36,7 +36,7 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <select class="custom-select form-control-border" id="dokter" name="dokter">
-                                    <option hidden>Dokter Spesialis</option>
+                                    <option hidden value="">Dokter Spesialis</option>
                                 </select>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
         });
 
         load_data();
-        function load_data(tgl_pertama, tgl_kedua, kd_dokter, status) {
+        function load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli) {
             $('#table-kunjungan').DataTable({
             processing: true,
             serverSide: true,
@@ -130,6 +130,7 @@
                         tgl_kedua:tgl_kedua,
                         kd_dokter:kd_dokter,
                         status:status,
+                        poli:poli,
                     },
                 // pages: 10
                 },
@@ -144,8 +145,8 @@
             },
 
             paging:true,
-            // dom: 'Bfrtip',
-            dom: "frtiS",
+            dom: 'Bfrtip',
+            // dom: "frtiS",
             language: {
                     processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>'
                 },
@@ -206,11 +207,14 @@
                 month2 = date2.getMonth();
                 year2 = date2.getFullYear();
                 
-                $('#table-kunjungan').DataTable().destroy();
-                $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>'+' : Poli '+namaPoli);
-                toastr.success('Pencarian Selesai');
                 
-                load_data(tgl_pertama, tgl_kedua, kd_dokter, status);
+                
+                    $('#table-kunjungan').DataTable().destroy();
+                    $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>'+' : Poli '+namaPoli);
+                    toastr.success('Pencarian Selesai');
+                    
+                    load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli);                
+
             }else{
                 toastr.error('Lengkapi Pilihan Pencarian');
             }

@@ -36,7 +36,10 @@ class KunjunganRalanController extends Controller
                     ->whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
                     ->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
                     ->whereHas('dokter', function ($query) use ($request) {
-                        $query->where('kd_dokter', $request->kd_dokter);
+                        $query->where('kd_sps', 'like', $request->poli);
+                    })
+                    ->whereHas('dokter', function ($query) use ($request) {
+                        $query->where('kd_dokter', 'like', '%' . $request->kd_dokter . '%');
                     });
             } else {
                 $data = RegPeriksa::whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
