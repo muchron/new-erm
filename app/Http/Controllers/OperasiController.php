@@ -32,12 +32,12 @@ class OperasiController extends Controller
             if (!empty($request->tgl_pertama) || !empty($request->tgl_kedua)) {
                 $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama, $request->tgl_kedua])
                     ->whereHas('paketOperasi', function ($query) use ($request) {
-                        if ($request->operasi == 'SC') {
+                        if ($request->operasi == 'sc') {
                             $query->where('nm_perawatan', 'like', '%SC%');
                             $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
-                        } else {
-                            $query->where('nm_perawatan', 'not like', '%partus%');
-                            $query->where('nm_perawatan', 'not like', '%normal%');
+                        } else if ($request->operasi == 'normal') {
+                            $query->where('nm_perawatan', 'like', '%partus%');
+                            $query->orWhere('nm_perawatan', 'like', '%normal%');
                         }
                     });
             } else {

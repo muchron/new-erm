@@ -22,17 +22,12 @@
                                 <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{$dateNow}}"/>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="form-group clearfix mt-2">
-                                <div class="icheck-teal d-inline">
-                                  <input type="radio" name="operasi" id="sc" value="SC">
-                                  <label for="sc">Sectio Caesaria (SC)</label>
-                                </div>
-                                <div class="icheck-teal d-inline">
-                                  <input type="radio" name="operasi" id="normal" value="normal">
-                                  <label for="normal">Partus Normal</label>
-                                </div>
-                            </div>
+                        <div class="col-3">
+                            <select name="operasi" id="operasi" class="custom-select form-control-border">
+                                <option value="" hidden>Tindakan Operasi</option>
+                                <option value="sc">Sectio Caesaria / SC</option>
+                                <option value="normal">Partus Normal</option>
+                            </select>
                         </div>
                         <div class="col-2">
                             <button class="btn btn-info" id="cari"><i class="fas fa-search"></i> Cari</button>
@@ -95,16 +90,16 @@ $(document).ready(function(){
             paging:false,
             dom: 'Bfrtip',
             buttons: [
-                {extend: 'copy', className:'btn btn-info', title: 'Daftar_Pegawai{{date("dmy")}}'},
-                {extend: 'csv', className:'btn btn-info', title: 'Daftar_Pegawai{{date("dmy")}}'},
-                {extend: 'excel', className:'btn btn-info', title: 'Daftar_Pegawai{{date("dmy")}}'},
-                {extend: 'pdf', className:'btn btn-info', title: 'Daftar_Pegawai{{date("dmy")}}', exportOptions: {
+                {extend: 'copy', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
+                {extend: 'csv', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
+                {extend: 'excel', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
+                {extend: 'pdf', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}', exportOptions: {
                     modifier: {
                         search: 'applied',
                         order: 'applied'
                     }
                 }},
-                {extend: 'print', className:'btn btn-info', title: 'Daftar_Pegawai{{date("dmy")}}'},
+                {extend: 'print', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
             ],
             columns: [
                 { data: 'no_rawat', name: 'no_rawat',},
@@ -118,11 +113,10 @@ $(document).ready(function(){
                     target:[4],
                     data: 'asisten1',
                     render: function(data, type, row, meta){
-                        return '<b class="text-red">Asisten 1</b> : '+row.asisten1+'<br>'+
-                        '<b>Asisten 2</b> : '+row.asisten2+'<br>'+
-                        '<b>Asisten Anes.</b> : '+row.asistenAnestesi+'<br>'+
-                        '<b>Onloop</b> : '+row.omloop
-
+                        return '<ul class="m-0"><li><b>Asisten 1 </b>: '+row.asisten1+'</li>'+
+                        '<li><b>Asisten 2</b> : '+row.asisten2+'</li>'+
+                        '<li><b>Asisten Anes.</b> : '+row.asistenAnestesi+'</li>'+
+                        '<li><b>Onloop</b> : '+row.omloop+'</li></ul>'
                     },
                     name:'asisten1'
 
@@ -135,21 +129,12 @@ $(document).ready(function(){
     $('#cari').click(function(){
         var tgl_pertama = $('#tgl_pertama').val();
         var tgl_kedua = $('#tgl_kedua').val();
-        var operasi = '';
-
-        if ($('#sc').is(":checked")){
-            operasi= 'SC';    
-        }else if($('#normal').is(":checked")){
-            operasi = 'normal';       
-        }
-        
-        console.log(operasi);
-
+        var operasi = $('#operasi').val();
+     
         if (tgl_pertama != '' &&  tgl_kedua != ''){
             $('#table-operasi').DataTable().destroy();
                 toastr.success('Pencarian Selesai');
-                load_data(tgl_pertama, tgl_kedua, operasi);
-                
+                load_data(tgl_pertama, tgl_kedua, operasi);           
         }else{
             alert('Both Date is required');
         }
