@@ -34,10 +34,10 @@
             </li>
           </ul>
         </li>
-        <li class="nav-header"><i class="nav-icon far fa-envelope"></i> OPERASI</li>
+        <li class="nav-header"><i class="nav-icon fas fa-user-md"></i> OPERASI</li> 
         <li class="nav-item has-treeview {{Request::is('operasi*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link {{Request::is('operasi*') ? 'active' : '' }}">
-            <i class="nav-icon far fa-envelope"></i>
+            <i class="nav-icon fas fa-book-medical"></i>
             <p>
               Laporan Operasi
               <i class="fas fa-angle-left right"></i>
@@ -55,7 +55,7 @@
         <li class="nav-header"><i class="fas fa-clinic-medical"></i> IGD</li>
         <li class="nav-item has-treeview {{Request::is('igd*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link {{Request::is('igd*') ? 'active' : '' }}">
-            <i class="nav-icon fas fa-clinic-medical"></i>
+            <i class="nav-icon fas fa-ambulance"></i>
             <p>
               Kunjungan IGD
               <i class="fas fa-angle-left right"></i>
@@ -70,10 +70,10 @@
             </li>
           </ul>
         </li>
-        <li class="nav-header"><i class="fas fa-clinic-medical"></i> Poli</li>
-        <li class="nav-item has-treeview {{Request::is('igd*') ? 'menu-is-opening menu-open' : '' }}">
-          <a href="#" class="nav-link {{Request::is('igd*') ? 'active' : '' }}">
-            <i class="nav-icon fas fa-clinic-medical"></i>
+        <li class="nav-header"><i class="fas fas fa-user-nurse"></i> Poli</li>
+        <li class="nav-item has-treeview {{Request::is('kunjungan*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('kunjungan*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-user-nurse"></i>
             <p>
               Kunjungan Rawat Jalan
               <i class="fas fa-angle-left right"></i>
@@ -82,7 +82,7 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{'/kunjungan'}}" class="nav-link">
-                <i class="far fa-circle nav-icon {{Request::is('igd') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <i class="far fa-circle nav-icon {{Request::is('kunjungan*') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>Status Lama / Baru</p>
               </a>
             </li>

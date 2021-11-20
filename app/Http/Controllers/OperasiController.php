@@ -35,18 +35,13 @@ class OperasiController extends Controller
                         if ($request->operasi == 'sc') {
                             $query->where('nm_perawatan', 'like', '%SC%');
                             $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
-                        } else if ($request->operasi == 'normal') {
-                            $query->where('nm_perawatan', 'like', '%partus%');
-                            $query->orWhere('nm_perawatan', 'like', '%normal%');
+                        } else if ($request->operasi == 'curetage') {
+                            $query->where('nm_perawatan', 'like', '%Curetage%');
                         }
                     });
             } else {
                 $data = Operasi::with('paketOperasi')
                     ->whereBetween('tgl_operasi', [$awalBulan->toDateString(), $sekarang->toDateString()]);
-                // ->whereHas('paketOperasi', function ($query) {
-                //     $query->where('nm_perawatan', 'like', '%SC%');
-                //     $query->orWhere('nm_perawatan', 'not like', '%Sectio Caesaria%');
-                // });;
             }
         }
         return DataTables::of($data)

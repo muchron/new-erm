@@ -24,8 +24,10 @@
                         </div>
                         <div class="col-3">
                             <select name="operasi" id="operasi" class="custom-select form-control-border">
-                                <option value="" hidden>Tindakan Operasi</option>
+                                <option hidden>Tindakan Operasi</option>
+                                <option value="" >Semua Tindakan</option>
                                 <option value="sc">Sectio Caesaria / SC</option>
+                                <option value="curetage">Curetage</option>
                                 <option value="normal">Partus Normal</option>
                             </select>
                         </div>
@@ -83,12 +85,20 @@ $(document).ready(function(){
             processing: true,   
             serverSide: true,
             ajax: {url:'operasi/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, operasi:operasi} },
-            lengthChange: false,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            // pageLength: 1000,
+            lengthChange: true,
             scrollY: "350px",
             scrollX: true,
-            scrollCollapse: true,
-            paging:false,
-            dom: 'Bfrtip',
+            scroller : {
+                loadingIndicator: true
+            },
+            language: {
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>'
+                },
+            paging:true,
+            dom: 'Blfrtip',
+            
             buttons: [
                 {extend: 'copy', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
                 {extend: 'csv', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
