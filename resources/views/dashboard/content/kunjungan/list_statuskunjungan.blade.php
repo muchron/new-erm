@@ -8,6 +8,21 @@
                     <p class="card-title border-bottom-0">Pencarian</p>
                 </div>
                 <div class="card-body">
+                    <div class="row m-0">
+                        <div class="col-4">
+                            <label for="">Tanggal</label>
+
+                        </div>
+                        <div class="col-2">
+                            <label for="">Status Daftar</label>
+                        </div>
+                        <div class="col-2">
+                            <label for="">Poli</label>
+                        </div>
+                        <div class="col-2">
+                            <label for="">Dokter</label>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-2">
                             <input type="date" id="tgl_pertama" class="form-control" name="tgl_pertama" required value={{$tglAwal}}>
@@ -18,7 +33,7 @@
                         <div class="col-2">
                             <div class="form-group">
                                 <select class="custom-select form-control-border" id="status" name="status">
-                                  <option value="" hidden>Status Daftar</option>
+                                  <option value="" >Semua</option>
                                   <option value="Baru">Pasien Baru</option>
                                   <option value="Lama">Pasien Lama</option>
                                 </select>
@@ -27,7 +42,7 @@
                         <div class="col-2">
                             <div class="form-group">
                                 <select class="custom-select form-control-border" id="poli" name="poli">
-                                  <option value="" hidden>Pilih Poli</option>
+                                  <option value="">Semua Poli</option>
                                   <option value="S0003">Anak</option>
                                   <option value="S0001">Kandungan dan Kebidanan</option>
                                 </select>
@@ -60,7 +75,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            <div class="table-responsive">
+                            <div class="table-responsive text-sm">
                                 <table class="table table-bordered"  id="table-kunjungan" style="width: 100%" cellspacing="0">
                                     <thead>
                                         <tr >
@@ -116,39 +131,50 @@
 
         load_data();
         function load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli) {
-            $('#table-kunjungan').DataTable({
+          $('#table-kunjungan').DataTable({
             processing: true,
             serverSide: true,
-            // destroy: true,
-            deferRender:    true,
+            destroy: false,
+            deferRender:true,
+            buttons: ['pageLength'],
             ajax: {
                 url:'/kunjungan/json',
                 dataType:'json',
-                // type : 'POST',
                 data: {
                         tgl_pertama:tgl_pertama,
                         tgl_kedua:tgl_kedua,
-                        kd_dokter:kd_dokter,
-                        status:status,
-                        poli:poli,
                     },
-                // pages: 10
                 },
-            // order: [[ 0, "ASC" ]],
-            lengthChange: false,
+            lengthChange: true,
+            lengthMenu: [[50, 100, -1], [50, 100, "Semua"]],
             ordering:false,
-            searching : true,
-            scrollY: 500,
+            searching : false,
+            scrollY: 300,
             scrollX: true,
             scroller : {
                 loadingIndicator: true
             },
-
             paging:true,
-            dom: 'Bfrtip',
-            // dom: "frtiS",
+            dom: 'Blfrtip',
             language: {
-                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>'
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>',
+                    lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
+                                    '<option value="50">50</option>'+
+                                    '<option value="100">100</option>'+
+                                    '<option value="200">200</option>'+
+                                    '<option value="250">250</option>'+
+                                    '<option value="500">500</option>'+
+                                    '<option value="-1">Semua</option>'+
+                                    '</select> Baris',
+                    zeroRecords: "Tidak Ditemukan Data",
+                    infoEmpty:      "",
+                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
+                    paginate: {
+                                    "first":      "Pertama",
+                                    "last":       "Terakhir",
+                                    "next":       "Selanjutnya",
+                                    "previous":   "Sebelumnya"
+                                },
                 },
             buttons: [
                 {extend: 'copy', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
@@ -211,15 +237,14 @@
                 
                     $('#table-kunjungan').DataTable().destroy();
                     $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>'+' : Poli '+namaPoli);
-                    toastr.success('Pencarian Selesai');
-                    
                     load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli);                
+                    toastr.success('Pencarian Selesai');
 
             }else{
                 toastr.error('Lengkapi Pilihan Pencarian');
             }
     });
-    });
+});
 </script>
     
 @endpush

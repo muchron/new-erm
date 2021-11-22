@@ -11,8 +11,10 @@ use App\Http\Controllers\DokterController;
 use App\Http\Controllers\KunjunganRalanController;
 use App\Http\Controllers\LaporanDiagnosaDinkesController;
 use App\Http\Controllers\LaporanDiagnosaPenyakitController;
+use App\Http\Controllers\PersalinanController;
 use App\Models\Dokter;
 use App\Models\Pasien;
+use App\Models\Persalinan;
 use App\Models\RegPeriksa;
 
 /*
@@ -51,6 +53,9 @@ Route::get('/igd/json', [LaporanIGDController::class, 'json']);
 
 Route::get('/kunjungan', [KunjunganRalanController::class, 'index']);
 Route::get('/kunjungan/json', [KunjunganRalanController::class, 'json']);
+
+Route::get('/persalinan', [PersalinanController::class, 'index']);
+Route::get('/persalinan/json', [PersalinanController::class, 'json']);
 
 Route::get('/poli/{kd_sps}', function ($kd_sps) {
     $dokter = Dokter::all()

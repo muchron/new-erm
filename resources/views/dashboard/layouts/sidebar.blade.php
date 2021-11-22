@@ -4,7 +4,6 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-        <li class="nav-header"><i class="nav-icon fas fa-th"></i> REKAM MEDIS</li>
         <li class="nav-item has-treeview {{Request::is('rekammedis*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link {{Request::is('rekammedis*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-copy"></i>
@@ -34,7 +33,6 @@
             </li>
           </ul>
         </li>
-        <li class="nav-header"><i class="nav-icon fas fa-user-md"></i> OPERASI</li> 
         <li class="nav-item has-treeview {{Request::is('operasi*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link {{Request::is('operasi*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-book-medical"></i>
@@ -52,7 +50,23 @@
             </li>
           </ul>
         </li>
-        <li class="nav-header"><i class="fas fa-clinic-medical"></i> IGD</li>
+        <li class="nav-item has-treeview {{Request::is('persalinan*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('persalinan*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-baby"></i>
+            <p>
+              Tindakan Persalinan
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{'/persalinan'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('persalinan') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Laporan Tindakan Persalinan</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-item has-treeview {{Request::is('igd*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link {{Request::is('igd*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-ambulance"></i>
@@ -70,7 +84,6 @@
             </li>
           </ul>
         </li>
-        <li class="nav-header"><i class="fas fas fa-user-nurse"></i> Poli</li>
         <li class="nav-item has-treeview {{Request::is('kunjungan*') ? 'menu-is-opening menu-open' : '' }}">
           <a href="#" class="nav-link {{Request::is('kunjungan*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-user-nurse"></i>

@@ -30,17 +30,19 @@ class KunjunganRalanController extends Controller
         $tanggal = new Carbon('this month');
 
         if ($request->ajax()) {
-            if (!empty($request->tgl_pertama) && !empty($request->tgl_kedua)) {
+            if ($request->tgl_pertama && $request->tgl_kedua) {
                 $data = RegPeriksa::where('stts_daftar', 'like', '%' . $request->status . '%')
                     ->where('stts', '!=', 'Batal')
                     ->whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
                     ->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
                     ->whereHas('dokter', function ($query) use ($request) {
-                        $query->where('kd_sps', 'like', $request->poli);
+                        if ($request->poli) {
+                            $query->where('kd_sps', 'like', $request->poli);
+                        }
                     })
                     ->whereHas('dokter', function ($query) use ($request) {
                         $query->where('kd_dokter', 'like', '%' . $request->kd_dokter . '%');
-                    });
+                    })->orderBy('tgl_registrasi', 'asc');
             } else {
                 $data = RegPeriksa::whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
                     ->where('stts', '!=', 'Batal')
