@@ -43,8 +43,7 @@ class DiagnosaPasienController extends Controller
                     })
                     ->groupBy('kd_penyakit')
                     ->orderBy('jumlah', 'desc')
-                    ->limit(10)
-                    ->get();
+                    ->limit(10);
             } else {
                 $data = DiagnosaPasien::select('*', DB::raw('count(kd_penyakit) as jumlah'))
                     ->where('prioritas', 1)
@@ -52,8 +51,7 @@ class DiagnosaPasienController extends Controller
                         $query->whereBetween('tgl_registrasi', [$start->startOfMonth()->toDateString(), $start->lastOfMonth()->toDateString()]);
                     })
                     ->groupBy('kd_penyakit')
-                    ->limit(10)
-                    ->get();
+                    ->limit(10);
             }
         }
         return DataTables::of($data)
