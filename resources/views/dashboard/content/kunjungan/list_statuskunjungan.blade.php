@@ -33,7 +33,7 @@
                         <div class="col-2">
                             <div class="form-group">
                                 <select class="custom-select form-control-border" id="status" name="status">
-                                  <option value="" >Semua</option>
+                                  <option value="" >Baru dan Lama</option>
                                   <option value="Baru">Pasien Baru</option>
                                   <option value="Lama">Pasien Lama</option>
                                 </select>
@@ -78,7 +78,7 @@
                             <div class="table-responsive text-sm">
                                 <table class="table table-bordered"  id="table-kunjungan" style="width: 100%" cellspacing="0">
                                     <thead>
-                                        <tr >
+                                        <tr>
                                             <th>Tanggal Registrasi</th>
                                             <th>Nama Pasien</th>
                                             <th>Tanggal Lahir</th>
@@ -102,6 +102,8 @@
 <script>
     $(document).ready(function(){
 
+        // new export action
+        
         // $('#dokter').hide();
         $('#poli').on('change', function() {
                var kd_poli = $(this).val();
@@ -132,23 +134,25 @@
         load_data();
         function load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli) {
           $('#table-kunjungan').DataTable({
-            processing: true,
-            serverSide: true,
-            destroy: false,
-            deferRender:true,
-            buttons: ['pageLength'],
             ajax: {
                 url:'/kunjungan/json',
                 dataType:'json',
                 data: {
                         tgl_pertama:tgl_pertama,
                         tgl_kedua:tgl_kedua,
+                        kd_dokter:kd_dokter,
+                        status:status,
+                        poli:poli,
                     },
                 },
+            processing: true,
+            serverSide: true,
+            destroy: false,
+            deferRender:true,
             lengthChange: true,
-            lengthMenu: [[50, 100, -1], [50, 100, "Semua"]],
             ordering:false,
             searching : false,
+            stateSave: true,
             scrollY: 300,
             scrollX: true,
             scroller : {
@@ -156,8 +160,21 @@
             },
             paging:true,
             dom: 'Blfrtip',
+            initComplete: function(settings, json) {
+                                toastr.success('Data telah dimuat', 'Berhasil');
+                            },
             language: {
                     processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>',
+                    zeroRecords: "Tidak Ditemukan Data",
+                    infoEmpty:      "",
+                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
+                    loadingRecords: "Sedang memuat ...",
+                    buttons: {
+                                copyTitle: 'Data telah disalin',
+                                copySuccess: {
+                                                _: '%d baris data telah disalin',
+                                            },
+                            },
                     lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
                                     '<option value="50">50</option>'+
                                     '<option value="100">100</option>'+
@@ -166,9 +183,6 @@
                                     '<option value="500">500</option>'+
                                     '<option value="-1">Semua</option>'+
                                     '</select> Baris',
-                    zeroRecords: "Tidak Ditemukan Data",
-                    infoEmpty:      "",
-                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
                     paginate: {
                                     "first":      "Pertama",
                                     "last":       "Terakhir",
@@ -177,16 +191,9 @@
                                 },
                 },
             buttons: [
-                {extend: 'copy', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'csv', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'excel', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'pdf', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}', exportOptions: {
-                    modifier: {
-                        search: 'applied',
-                        order: 'applied'
-                    }
-                }},
-                {extend: 'print', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
             ],
             columns:[
                 {data:'tgl_registrasi', name:'tgl_registrasi'},
@@ -208,6 +215,8 @@
             var poli= $('#poli').val();
             var namaPoli= $('#poli option:selected').text();
              
+            console.log(status);
+
             if (tgl_pertama != '' &&  tgl_kedua != ''){
                 var months = new Array(12);
                     months[0] = "Januari";
@@ -232,13 +241,9 @@
                 day2 = date2.getDate();
                 month2 = date2.getMonth();
                 year2 = date2.getFullYear();
-                
-                
-                
-                    $('#table-kunjungan').DataTable().destroy();
-                    $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>'+' : Poli '+namaPoli);
-                    load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli);                
-                    toastr.success('Pencarian Selesai');
+                $('#table-kunjungan').DataTable().destroy();
+                $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>'+' : Poli '+namaPoli);
+                load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli);                
 
             }else{
                 toastr.error('Lengkapi Pilihan Pencarian');

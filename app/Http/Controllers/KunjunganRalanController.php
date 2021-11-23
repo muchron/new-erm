@@ -36,8 +36,8 @@ class KunjunganRalanController extends Controller
                     ->whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
                     ->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
                     ->whereHas('dokter', function ($query) use ($request) {
-                        if ($request->poli) {
-                            $query->where('kd_sps', 'like', $request->poli);
+                        if ($request->poli != '') {
+                            $query->where('kd_sps', $request->poli);
                         }
                     })
                     ->whereHas('dokter', function ($query) use ($request) {
@@ -54,6 +54,12 @@ class KunjunganRalanController extends Controller
         }
 
         return DataTables::of($data)
+            ->editColumn('get_kd_sps', function ($data) use ($request) {
+                return $request->poli;
+            })
+            ->editColumn('kd_sps', function ($data) {
+                return $data->dokter->kd_sps;
+            })
             ->editColumn('tgl_registrasi', function ($data) {
                 return Carbon::parse($data->tgl_registrasi)->translatedFormat('d F Y');
             })
