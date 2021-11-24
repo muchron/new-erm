@@ -72,9 +72,8 @@ $(document).ready(function(){
             processing: true,   
             serverSide: true,
             destroy : false,
-            searching : false,
+            searching : true,
             ajax: {url:'persalinan/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, operasi:operasi} },
-            lengthMenu: [[50, 100, -1], [50, 100, "Semua"]],
             scrollY: "350px",
             scrollX: true,
             scroller : {
@@ -85,18 +84,42 @@ $(document).ready(function(){
                 },
             paging:true,
             dom: 'Blfrtip',
-            
+            initComplete: function(settings, json) {
+                                toastr.success('Data telah dimuat', 'Berhasil');
+                            },
+            language: {
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>',
+                    zeroRecords: "Tidak Ditemukan Data",
+                    infoEmpty:      "",
+                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
+                    loadingRecords: "Sedang memuat ...",
+                    infoFiltered:   "(Disaring dari _MAX_ total baris)",
+                    buttons: {
+                                copyTitle: 'Data telah disalin',
+                                copySuccess: {
+                                                _: '%d baris data telah disalin',
+                                            },
+                            },
+                    lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
+                                    '<option value="50">50</option>'+
+                                    '<option value="100">100</option>'+
+                                    '<option value="200">200</option>'+
+                                    '<option value="250">250</option>'+
+                                    '<option value="500">500</option>'+
+                                    '<option value="-1">Semua</option>'+
+                                    '</select> Baris',
+                    paginate: {
+                                    "first":      "Pertama",
+                                    "last":       "Terakhir",
+                                    "next":       "Selanjutnya",
+                                    "previous":   "Sebelumnya"
+                                },
+                                search: 'Cari Dokter : ',
+                },
             buttons: [
-                {extend: 'copy', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
-                {extend: 'csv', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
-                {extend: 'excel', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
-                {extend: 'pdf', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}', exportOptions: {
-                    modifier: {
-                        search: 'applied',
-                        order: 'applied'
-                    }
-                }},
-                {extend: 'print', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
             ],
             columns: [
                 { data: 'no_rawat', name: 'no_rawat',},

@@ -46,6 +46,13 @@ class PersalinanController extends Controller
 
 
         return DataTables::of($data)
+            ->filter(function ($query) use ($request) {
+                if ($request->has('search') && $request->get('search')['value']) {
+                    return $query->whereHas('dokter', function ($query) use ($request) {
+                        $query->where('nm_dokter', 'like', '%' . $request->get('search')['value'] . '%');
+                    });
+                }
+            })
             ->editColumn('tgl_perawatan', function ($data) use ($tanggal) {
                 return $tanggal->parse($data->tgl_perawatan)->translatedFormat('d F Y') . ' ( ' . $data->jam_rawat . ' )';
             })
