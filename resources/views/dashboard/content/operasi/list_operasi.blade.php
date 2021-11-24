@@ -79,7 +79,7 @@ $(document).ready(function(){
 
     load_data();
 
-    function load_data(tgl_pertama='', tgl_kedua='', operasi=''){
+    function load_data(tgl_pertama, tgl_kedua, operasi){
         $('#table-operasi').DataTable({
             ajax: {
                 url:'operasi/json',
@@ -97,6 +97,9 @@ $(document).ready(function(){
             scrollX: true,
             paging:true,
             dom: 'Blfrtip',
+            initComplete: function(settings, json) {
+                                toastr.success('Data telah dimuat', 'Berhasil');
+                            },
             scroller : {
                 loadingIndicator: true
             },
@@ -127,7 +130,7 @@ $(document).ready(function(){
                                     "next":       "Selanjutnya",
                                     "previous":   "Sebelumnya"
                                 },
-                                search: 'Cari Pasien : ',
+                    search: 'Cari Dokter : ',
                 },
          
             buttons: [
@@ -142,7 +145,6 @@ $(document).ready(function(){
                 { data: 'dokter', name: 'dokter',},
                 { data: 'dokterAnestesi', name: 'dokterAnestesi',},
                 { data: 'dokterAnak', name: 'dokterAnak',},
-                
                 {
                     target:[4],
                     data: 'asisten1',
@@ -167,10 +169,9 @@ $(document).ready(function(){
      
         if (tgl_pertama != '' &&  tgl_kedua != ''){
             $('#table-operasi').DataTable().destroy();
-                toastr.success('Pencarian Selesai');
-                load_data(tgl_pertama, tgl_kedua, operasi);           
+                load_data(tgl_pertama, tgl_kedua);           
         }else{
-            alert('Both Date is required');
+            toastr.error('Lengkapi Pencarian !', 'Gagal');
         }
     });
 

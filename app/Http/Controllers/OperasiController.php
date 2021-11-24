@@ -17,7 +17,7 @@ class OperasiController extends Controller
         return view('dashboard.content.operasi.list_operasi', [
             'title' => 'Data Operasi',
             'bigTitle' => 'Operasi',
-            'month' => $awalBulan->translatedFormat('d F Y') . ' s/d ' . $sekarang->translatedFormat('d F Y'),
+            'month' => 'Jadwal Operasi : ' . $sekarang->translatedFormat('d F Y'),
             'dateNow' => $sekarang->toDateString(),
             'dateStart' => $awalBulan->toDateString()
         ]);
@@ -41,10 +41,17 @@ class OperasiController extends Controller
                     });
             } else {
                 $data = Operasi::with('paketOperasi')
-                    ->whereBetween('tgl_operasi', [$awalBulan->toDateString(), $sekarang->toDateString()]);
+                    ->where('tgl_operasi', $sekarang->toDateString());
             }
         }
         return DataTables::of($data)
+            ->filter(function ($query) use ($request) {
+                if ($request->has('search') && !is_null($request->get('search')['value'])) {
+                    return $query->whereHas('dokter', function ($query) use ($request) {
+                        $query->where('nm_dokter', 'like', '%' . $request->get('search')['value'] . '%');
+                    });
+                }
+            })
             ->editColumn('tgl_operasi', function ($data) {
                 return Carbon::parse($data->tgl_operasi)->translatedFormat('d F Y (H:i:s)');
             })
