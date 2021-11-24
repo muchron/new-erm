@@ -151,7 +151,7 @@
             deferRender:true,
             lengthChange: true,
             ordering:false,
-            searching : false,
+            searching : true,
             stateSave: true,
             scrollY: 300,
             scrollX: true,
@@ -169,6 +169,7 @@
                     infoEmpty:      "",
                     info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
                     loadingRecords: "Sedang memuat ...",
+                    infoFiltered:   "(Disaring dari _MAX_ total baris)",
                     buttons: {
                                 copyTitle: 'Data telah disalin',
                                 copySuccess: {
@@ -189,6 +190,7 @@
                                     "next":       "Selanjutnya",
                                     "previous":   "Sebelumnya"
                                 },
+                                search: 'Cari Pasien : ',
                 },
             buttons: [
                 {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
@@ -202,7 +204,7 @@
                 {data:'alamat', name:'alamat'},
                 {data:'p_jawab', name:'p_jawab'},
                 {data:'no_tlp', name:'no_tlp'},
-                {data:'nm_dokter', name:'dokter.nm_dokter'},
+                {data:'nm_dokter', name:'nm_dokter'},
                 ],
             });
         }

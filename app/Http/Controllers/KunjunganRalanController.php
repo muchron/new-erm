@@ -54,8 +54,12 @@ class KunjunganRalanController extends Controller
         }
 
         return DataTables::of($data)
-            ->editColumn('get_kd_sps', function ($data) use ($request) {
-                return $request->poli;
+            ->filter(function ($query) use ($request) {
+                if ($request->has('search') && !is_null($request->get('search')['value'])) {
+                    return $query->whereHas('pasien', function ($query) use ($request) {
+                        $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%');
+                    });
+                }
             })
             ->editColumn('kd_sps', function ($data) {
                 return $data->dokter->kd_sps;

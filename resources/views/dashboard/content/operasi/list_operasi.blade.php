@@ -28,7 +28,6 @@
                                 <option value="" >Semua Tindakan</option>
                                 <option value="sc">Sectio Caesaria / SC</option>
                                 <option value="curetage">Curetage</option>
-                                <option value="normal">Partus Normal</option>
                             </select>
                         </div>
                         <div class="col-2">
@@ -82,34 +81,59 @@ $(document).ready(function(){
 
     function load_data(tgl_pertama='', tgl_kedua='', operasi=''){
         $('#table-operasi').DataTable({
+            ajax: {
+                url:'operasi/json',
+                data: {
+                    tgl_pertama:tgl_pertama,
+                    tgl_kedua:tgl_kedua,
+                    operasi:operasi
+                }
+            },
             processing: true,   
             serverSide: true,
-            ajax: {url:'operasi/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, operasi:operasi} },
-            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            // pageLength: 1000,
             lengthChange: true,
+            ordering: false,
             scrollY: "350px",
             scrollX: true,
+            paging:true,
+            dom: 'Blfrtip',
             scroller : {
                 loadingIndicator: true
             },
             language: {
-                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>'
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>',
+                    zeroRecords: "Tidak Ditemukan Data",
+                    infoEmpty:      "",
+                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
+                    loadingRecords: "Sedang memuat ...",
+                    infoFiltered:   "(Disaring dari _MAX_ total baris)",
+                    buttons: {
+                                copyTitle: 'Data telah disalin',
+                                copySuccess: {
+                                                _: '%d baris data telah disalin',
+                                            },
+                            },
+                    lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
+                                    '<option value="50">50</option>'+
+                                    '<option value="100">100</option>'+
+                                    '<option value="200">200</option>'+
+                                    '<option value="250">250</option>'+
+                                    '<option value="500">500</option>'+
+                                    '<option value="-1">Semua</option>'+
+                                    '</select> Baris',
+                    paginate: {
+                                    "first":      "Pertama",
+                                    "last":       "Terakhir",
+                                    "next":       "Selanjutnya",
+                                    "previous":   "Sebelumnya"
+                                },
+                                search: 'Cari Pasien : ',
                 },
-            paging:true,
-            dom: 'Blfrtip',
-            
+         
             buttons: [
-                {extend: 'copy', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
-                {extend: 'csv', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
-                {extend: 'excel', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
-                {extend: 'pdf', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}', exportOptions: {
-                    modifier: {
-                        search: 'applied',
-                        order: 'applied'
-                    }
-                }},
-                {extend: 'print', className:'btn btn-info', title: 'List-Tindakan-Operasi {{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
             ],
             columns: [
                 { data: 'no_rawat', name: 'no_rawat',},
