@@ -30,7 +30,7 @@
                         <div class="col-2">
                             <div class="form-group">
                                 <select class="custom-select form-control-border" id="kategori" name="kategori">
-                                  <option selected disabled>Semua Kategori</option>
+                                  <option value="">Semua Kategori</option>
                                   <option value="anak">Anak</option>
                                   <option value="kandungan">Kandungan dan Kebidanan</option>
                                 </select>
@@ -57,7 +57,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="table-diagnosa" style="width: 100%" cellspacing="0">
+                                <table class="table table-bordered text-sm" id="table-diagnosa" style="width: 100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Kode Diagnosa</th>
@@ -82,35 +82,68 @@
         load_data();
         function load_data(tgl_pertama, tgl_kedua, status, kategori) {
             $('#table-diagnosa').DataTable({
+            ajax: {
+                url:'rekammedis/json',
+                data: {
+                    tgl_pertama:tgl_pertama,
+                    tgl_kedua:tgl_kedua,
+                    status:status,
+                    kategori:kategori
+                    }
+                },
             processing: true,
             serverSide: true,
-            ajax: {url:'rekammedis/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, status:status, kategori:kategori} },
             order: [[ 3, "desc" ]],
-            lengthChange: false,
+            lengthChange: true,
             orderable:false,
             scrollY: "350px",
             scrollX: true,
-            scrollCollapse: true,
-            paging:false,
+            scroller: false,
+            paging:true,
             dom: 'Bfrtip',
+            initComplete: function(settings, json) {
+                                toastr.success('Data telah dimuat', 'Berhasil');
+                            },
+            language: {
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>',
+                    zeroRecords: "Tidak Ditemukan Data",
+                    infoEmpty:      "",
+                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
+                    loadingRecords: "Sedang memuat ...",
+                    infoFiltered:   "(Disaring dari _MAX_ total baris)",
+                    buttons: {
+                                copyTitle: 'Data telah disalin',
+                                copySuccess: {
+                                                _: '%d baris data telah disalin',
+                                            },
+                            },
+                    lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
+                                    '<option value="50">50</option>'+
+                                    '<option value="100">100</option>'+
+                                    '<option value="200">200</option>'+
+                                    '<option value="250">250</option>'+
+                                    '<option value="500">500</option>'+
+                                    '<option value="-1">Semua</option>'+
+                                    '</select> Baris',
+                    paginate: {
+                                    "first":      "Pertama",
+                                    "last":       "Terakhir",
+                                    "next":       "Selanjutnya",
+                                    "previous":   "Sebelumnya"
+                                },
+                                search: 'Cari Penyakit : ',
+                },
             buttons: [
-                {extend: 'copy', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'csv', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'excel', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'pdf', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}', exportOptions: {
-                    modifier: {
-                        search: 'applied',
-                        order: 'applied'
-                    }
-                }},
-                {extend: 'print', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
             ],
             columns:[
                 {data:'kd_penyakit', name:'kd_penyakit'},
                 {data:'nm_penyakit', name:'nm_penyakit'},
                 {data:'status', name:'status'},
                 {data:'jumlah', name:'jumlah'},
-                ]
+                ],
             });
         }
 
@@ -133,7 +166,7 @@
                 toastr.success('Pencarian Selesai');
                 load_data(tgl_pertama, tgl_kedua, status, kategori);
             }else{
-                toastr.info('Lengkapi Pilihan Pencarian');
+                toastr.error('Lengkapi Pilihan Pencarian');
             }
     });
     });
