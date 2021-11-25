@@ -12,12 +12,16 @@ class LaporanDiagnosaDinkesController extends Controller
 {
     public function index()
     {
+        $tanggal = new Carbon('this month');
         return view(
             'dashboard.content.rekammedis.list_diagnosa_dinkes',
             [
                 'bigTitle' => 'Laporan Diagnosa Dinkes',
                 'title' => 'Laporan Diagnosa Dinkes',
-                'month' => Carbon::now()->monthName
+                'month' => $tanggal->now()->monthName,
+                'tglAwal' => $tanggal->startOfMonth()->toDateString(),
+                'tglSekarang' => $tanggal->now()->toDateString(),
+
             ]
         );
     }
@@ -42,7 +46,7 @@ class LaporanDiagnosaDinkesController extends Controller
             } else {
                 $data = DiagnosaPasien::select('*', DB::raw('count(kd_penyakit) as jumlah'))
                     ->where('prioritas', 1)
-                    ->whereIn('kd_penyakit', ['A09.9', 'J06.0', 'J18.0'])
+                    ->whereIn('kd_penyakit', ['A09.9', 'J06.9', 'J18.0'])
                     ->whereHas('regPeriksa', function ($query) use ($start) {
                         $query->whereBetween('tgl_registrasi', [$start->startOfMonth()->toDateString(), $start->lastOfMonth()->toDateString()]);
                     })

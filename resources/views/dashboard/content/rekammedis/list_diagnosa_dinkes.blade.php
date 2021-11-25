@@ -10,10 +10,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-4">
-                            <input type="date" id="tgl_pertama" class="form-control" name="tgl_pertama" required>
+                            <input type="date" id="tgl_pertama" class="form-control" name="tgl_pertama" required value="{{$tglAwal}}">
                         </div>
                         <div class="col-4">
-                            <input type="date" id="tgl_kedua" class="form-control" name="tgl_kedua" required>
+                            <input type="date" id="tgl_kedua" class="form-control" name="tgl_kedua" value="{{$tglSekarang}}" required>
                         </div>
                         <div class="col-3">
                             <div class="form-group clearfix mt-2">
@@ -41,7 +41,7 @@
                 <div class="card-header">
                     <p class="card-title border-bottom-0">{{$title}} </p>
                     <div class="card-tools mr-4" id="bulan">
-                        <span style="font-size: 1.2em"><strong>{{$month}}</strong></span>
+                        <span><strong>{{$month}}</strong></span>
                     </div>
                 </div>
                 <div class="card-body">
@@ -84,24 +84,49 @@
                     }
                 },
             order: [[ 3, "desc" ]],
-            lengthChange: false,
+            lengthChange: true,
             orderable:false,
             scrollY: "350px",
             scrollX: true,
-            scrollCollapse: true,
-            paging:false,
+            scroller: false,
+            paging:true,
             dom: 'Bfrtip',
+            initComplete: function(settings, json) {
+                                toastr.success('Data telah dimuat', 'Berhasil');
+                            },
+            language: {
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> <span class="sr-only">Loading...</span>',
+                    zeroRecords: "Tidak Ditemukan Data",
+                    infoEmpty:      "",
+                    info: "Menampilkan sebanyak _START_ ke _END_ dari _TOTAL_ data",
+                    loadingRecords: "Sedang memuat ...",
+                    infoFiltered:   "(Disaring dari _MAX_ total baris)",
+                    buttons: {
+                                copyTitle: 'Data telah disalin',
+                                copySuccess: {
+                                                _: '%d baris data telah disalin',
+                                            },
+                            },
+                    lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
+                                    '<option value="50">50</option>'+
+                                    '<option value="100">100</option>'+
+                                    '<option value="200">200</option>'+
+                                    '<option value="250">250</option>'+
+                                    '<option value="500">500</option>'+
+                                    '<option value="-1">Semua</option>'+
+                                    '</select> Baris',
+                    paginate: {
+                                    "first":      "Pertama",
+                                    "last":       "Terakhir",
+                                    "next":       "Selanjutnya",
+                                    "previous":   "Sebelumnya"
+                                },
+                                search: 'Cari Penyakit : ',
+                },
             buttons: [
-                {extend: 'copy', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'csv', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'excel', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
-                {extend: 'pdf', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}', exportOptions: {
-                    modifier: {
-                        search: 'applied',
-                        order: 'applied'
-                    }
-                }},
-                {extend: 'print', className:'btn btn-info', title: 'daftar-10-besar-penyakit{{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
             ],
             columns:[
                 {data:'kd_penyakit', name:'kd_penyakit'},
@@ -149,8 +174,7 @@
                 year2 = date2.getFullYear();
                 
                 $('#table-dinkes').DataTable().destroy();
-                $('#bulan').html('<strong style="font-size:1.2em">'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>');
-                toastr.success('Pencarian Selesai');
+                $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>');
                 load_data(tgl_pertama, tgl_kedua, status);
             }else{
                 toastr.error('Lengkapi Pilihan Pencarian');
