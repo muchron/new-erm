@@ -1,21 +1,22 @@
 <?php
 
+use App\Models\Dokter;
+use App\Models\Pasien;
 use App\Models\Operasi;
+use App\Models\Persalinan;
+use App\Models\RegPeriksa;
 use App\Models\DiagnosaPasien;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DokterController;
 use App\Http\Controllers\OperasiController;
 use App\Http\Controllers\LaporanIGDController;
+use App\Http\Controllers\PersalinanController;
 use App\Http\Controllers\DiagnosaPasienController;
-use App\Http\Controllers\DokterController;
+use App\Http\Controllers\DiagramOperasiController;
 use App\Http\Controllers\KunjunganRalanController;
 use App\Http\Controllers\LaporanDiagnosaDinkesController;
 use App\Http\Controllers\LaporanDiagnosaPenyakitController;
-use App\Http\Controllers\PersalinanController;
-use App\Models\Dokter;
-use App\Models\Pasien;
-use App\Models\Persalinan;
-use App\Models\RegPeriksa;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,8 @@ Route::get('/kunjungan/json', [KunjunganRalanController::class, 'json']);
 
 Route::get('/persalinan', [PersalinanController::class, 'index']);
 Route::get('/persalinan/json', [PersalinanController::class, 'json']);
+
+Route::get('/diagram/operasi', [DiagramOperasiController::class, 'index']);
 
 Route::get('/poli/{kd_sps}', function ($kd_sps) {
     $dokter = Dokter::all()

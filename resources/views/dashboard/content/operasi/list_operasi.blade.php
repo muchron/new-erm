@@ -6,6 +6,11 @@
         <div class="card card-teal">
             <div class="card-header">
                 <h1 class="card-title">Pencarian Data Operasi</h1>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -42,8 +47,11 @@
         <div class="card card-teal">
             <div class="card-header">
                 <h3 class="card-title">{{$title}}</h3>
-                <div class="card-tools mr-4" id="bulan">
+                <div class="card-tools" id="bulan">
                     <span><strong>{{$month}}</strong></span>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
             </div>
             <!-- /.card-header -->
@@ -70,7 +78,8 @@
                 </div>
         </div>
     </div>
-  </div>
+</div>
+@include('dashboard.content.operasi.diagram_operasi')
 @endsection
 
 @push('scripts')
@@ -93,7 +102,7 @@ $(document).ready(function(){
             serverSide: true,
             lengthChange: true,
             ordering: false,
-            scrollY: "350px",
+            scrollY: "300px",
             scrollX: true,
             paging:true,
             dom: 'Blfrtip',

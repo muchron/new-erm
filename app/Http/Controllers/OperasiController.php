@@ -11,15 +11,50 @@ class OperasiController extends Controller
 {
     public function index()
     {
+
+
         $tanggal = new Carbon('this month');
         $sekarang = $tanggal->now();
         $awalBulan = $tanggal->startOfMonth();
+
+
+        // dd(json_encode($sc));
+
+        $label = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        $dataCaesar = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            // $sc = Operasi::whereMonth('tgl_operasi', $i)
+            //     ->whereHas('paketOperasi', function ($query) {
+            //         $query->where('nm_perawatan', 'like', '%SC%');
+            //         $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
+            //     })->count();
+            // $curetage = Operasi::whereHas('paketOperasi', function ($query) {
+            //     $query->where('nm_perawatan', 'like', '%Curetage%');
+            // })->whereMonth('tgl_operasi', $i)->count();
+
+            $sc = Operasi::whereMonth('tgl_operasi', $i)
+                ->whereHas('paketOperasi', function ($query) {
+                    $query->where('nm_perawatan', 'like', '%SC%');
+                    $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
+                })->count();
+
+            $dataCaesar[] = (int) $sc->count;
+            $dataCuretage[] = (int) $curetage->count;
+        }
+
+
+
         return view('dashboard.content.operasi.list_operasi', [
             'title' => 'Data Operasi',
             'bigTitle' => 'Operasi',
             'month' => 'Jadwal Operasi : ' . $sekarang->translatedFormat('d F Y'),
             'dateNow' => $sekarang->toDateString(),
-            'dateStart' => $awalBulan->toDateString()
+            'dateStart' => $awalBulan->toDateString(),
+            'label' => $label,
+            'dataCaesar' => $dataCaesar,
+            'dataCuretage' => $dataCuretage,
         ]);
     }
     public function json(Request $request)
