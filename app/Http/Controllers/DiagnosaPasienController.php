@@ -51,6 +51,7 @@ class DiagnosaPasienController extends Controller
                         $query->whereBetween('tgl_registrasi', [$start->startOfMonth()->toDateString(), $start->lastOfMonth()->toDateString()]);
                     })
                     ->groupBy('kd_penyakit')
+                    ->orderBy('jumlah', 'desc')
                     ->limit(10)->get();
             }
         }

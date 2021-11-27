@@ -56,9 +56,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
-    </div>
   </div>
+
+  @include('dashboard.content.persalinan.diagram_persalinan')
+
 @endsection
 
 @push('scripts')
