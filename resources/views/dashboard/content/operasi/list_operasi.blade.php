@@ -178,7 +178,7 @@ $(document).ready(function(){
      
         if (tgl_pertama != '' &&  tgl_kedua != ''){
             $('#table-operasi').DataTable().destroy();
-                load_data(tgl_pertama, tgl_kedua);           
+                load_data(tgl_pertama, tgl_kedua, operasi);           
         }else{
             toastr.error('Lengkapi Pencarian !', 'Gagal');
         }

@@ -23,25 +23,23 @@ class OperasiController extends Controller
         $label = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
         $dataCaesar = [];
+        $dataCuretage = [];
 
         for ($i = 1; $i <= 12; $i++) {
-            // $sc = Operasi::whereMonth('tgl_operasi', $i)
-            //     ->whereHas('paketOperasi', function ($query) {
-            //         $query->where('nm_perawatan', 'like', '%SC%');
-            //         $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
-            //     })->count();
-            // $curetage = Operasi::whereHas('paketOperasi', function ($query) {
-            //     $query->where('nm_perawatan', 'like', '%Curetage%');
-            // })->whereMonth('tgl_operasi', $i)->count();
-
             $sc = Operasi::whereMonth('tgl_operasi', $i)
+                ->whereYear('tgl_operasi', $sekarang->year)
                 ->whereHas('paketOperasi', function ($query) {
                     $query->where('nm_perawatan', 'like', '%SC%');
                     $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
                 })->count();
+            $curetage = Operasi::whereMonth('tgl_operasi', $i)
+                ->whereYear('tgl_operasi', $sekarang->year)
+                ->whereHas('paketOperasi', function ($query) {
+                    $query->where('nm_perawatan', 'like', '%curetage%');
+                })->count();
 
-            $dataCaesar[] = (int) $sc->count;
-            $dataCuretage[] = (int) $curetage->count;
+            $dataCaesar[] = $sc;
+            $dataCuretage[] = $curetage;
         }
 
 
@@ -65,7 +63,7 @@ class OperasiController extends Controller
         $awalBulan = $tanggal->startOfMonth();
         if ($request->ajax()) {
             if (!empty($request->tgl_pertama) || !empty($request->tgl_kedua)) {
-                $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama, $request->tgl_kedua])
+                $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama . ' 00:00:00', $request->tgl_kedua . ' 23:59:59'])
                     ->whereHas('paketOperasi', function ($query) use ($request) {
                         if ($request->operasi == 'sc') {
                             $query->where('nm_perawatan', 'like', '%SC%');

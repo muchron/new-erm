@@ -31,7 +31,7 @@
 
     var dataSecond = {
         label: "Curetage",
-        data: {!!json_encode($dataCaesar)!!},
+        data: {!!json_encode($dataCuretage)!!},
         lineTension: 0,
         borderWidth : 2,
         fill: false,
