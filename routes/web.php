@@ -39,6 +39,7 @@ Route::get('/', function () {
 });
 Route::get('/operasi', [OperasiController::class, 'index']);
 Route::get('/operasi/json', [OperasiController::class, 'json']);
+Route::get('/diagram/operasi/{tahun}', [OperasiController::class, 'diagram']);
 
 Route::get('/rekammedis', [DiagnosaPasienController::class, 'index']);
 Route::get('/rekammedis/json', [DiagnosaPasienController::class, 'json']);
@@ -58,7 +59,6 @@ Route::get('/kunjungan/json', [KunjunganRalanController::class, 'json']);
 Route::get('/persalinan', [PersalinanController::class, 'index']);
 Route::get('/persalinan/json', [PersalinanController::class, 'json']);
 
-Route::get('/diagram/operasi', [DiagramOperasiController::class, 'index']);
 
 Route::get('/poli/{kd_sps}', function ($kd_sps) {
     $dokter = Dokter::all()

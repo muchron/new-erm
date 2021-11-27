@@ -117,4 +117,29 @@ class OperasiController extends Controller
             })
             ->make(true);
     }
+
+    public function diagram($tahun)
+    {
+        for ($i = 1; $i <= 12; $i++) {
+            $sc = Operasi::whereMonth('tgl_operasi', $i)
+                ->whereYear('tgl_operasi', $tahun)
+                ->whereHas('paketOperasi', function ($query) {
+                    $query->where('nm_perawatan', 'like', '%SC%');
+                    $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
+                })->count();
+            $curetage = Operasi::whereMonth('tgl_operasi', $i)
+                ->whereYear('tgl_operasi', $tahun)
+                ->whereHas('paketOperasi', function ($query) {
+                    $query->where('nm_perawatan', 'like', '%curetage%');
+                })->count();
+
+            $dataCaesar[] = $sc;
+            $dataCuretage[] = $curetage;
+        }
+
+        return response()->json([
+            'sc' => $dataCaesar,
+            'curetage' => $dataCuretage
+        ]);
+    }
 }
