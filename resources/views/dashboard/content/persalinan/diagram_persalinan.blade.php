@@ -25,75 +25,65 @@
     load_diagram(dokter, tahun);
 
     function load_diagram(dokter, tahun){
-
-
-        var labels = ['1', '1', '1','1','1','1','1'];
-
-        var dataDokter1 = {
-            label: "Dokter1",
-            data: [20,41,38,79,56,32,47],
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-            ],
-            borderWidth: 1
-        };
-
-        var dataDokter2 = {
-            label: "Dokter2",
-            data: [95,68,41,96,65,74,90],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-            ],
-            borderWidth: 1
-        };
-
-        var dataPersalinan = {
-            label : labels,
-            datasets : [dataDokter1, dataDokter2],
-        }
-
-        var myChart = new Chart(document.getElementById('diagramPersalinan'), 
-        {
-            type: 'bar',
-            data: dataPersalinan,
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
+        var ctx = document.getElementById("diagramPersalinan");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                    datasets: [{
+                            label: '# of Votes',
+                            data: [12, 19, 3, 5, 2, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: '# of Votes',
+                            data: [12, 19, 3, 5, 2, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        },
+                        ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
                 }
-                }
-            },
-        });
+            });
     }
 
 
