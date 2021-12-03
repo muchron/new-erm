@@ -16,7 +16,7 @@ class RegPeriksa extends Model
 
     public function diagnosaPasien()
     {
-        return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
+        return $this->belongsTo(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
     }
 
     public function dokter()

@@ -20,6 +20,6 @@ class DiagnosaPasien extends Model
     }
     public function regPeriksa()
     {
-        return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
+        return $this->hasMany(RegPeriksa::class, 'no_rawat', 'no_rawat');
     }
 }
