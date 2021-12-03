@@ -9,5 +9,10 @@ class Penjab extends Model
 {
     use HasFactory;
     protected $table = "penjab";
-    protected $primaryKey = "kd_pj";
+    // protected $primaryKey = "kd_pj";
+
+    function regPeriksa()
+    {
+        return $this->hasMany(RegPeriksa::class, 'kd_pj', 'kd_pj');
+    }
 }

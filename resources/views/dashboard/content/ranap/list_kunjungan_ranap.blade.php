@@ -14,13 +14,7 @@
 
                         </div>
                         <div class="col-2">
-                            <label for="">Status Daftar</label>
-                        </div>
-                        <div class="col-2">
                             <label for="">Poli</label>
-                        </div>
-                        <div class="col-2">
-                            <label for="">Dokter</label>
                         </div>
                     </div>
                     <div class="row">
@@ -30,28 +24,12 @@
                         <div class="col-2">
                             <input type="date" id="tgl_kedua" class="form-control" name="tgl_kedua" required value="{{$tglSekarang}}">
                         </div>
-                        <div class="col-2">
-                            <div class="form-group">
-                                <select class="custom-select form-control-border" id="status" name="status">
-                                  <option value="" >Baru dan Lama</option>
-                                  <option value="Baru">Pasien Baru</option>
-                                  <option value="Lama">Pasien Lama</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-2">
+                        <div class="col-4">
                             <div class="form-group">
                                 <select class="custom-select form-control-border" id="poli" name="poli">
                                   <option value="">Semua Poli</option>
-                                  <option value="S0003">Anak</option>
-                                  <option value="S0001">Kandungan dan Kebidanan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <select class="custom-select form-control-border" id="dokter" name="dokter">
-                                    <option hidden value="">Dokter Spesialis</option>
+                                  <option value="anak">Anak</option>
+                                  <option value="kandungan">Kebidanan dan Kandungan</option>
                                 </select>
                             </div>
                         </div>
@@ -79,13 +57,16 @@
                                 <table class="table table-bordered"  id="table-kunjungan" style="width: 100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>No Rawat</th>
                                             <th>Tanggal Registrasi</th>
+                                            <th>NIK Pasien</th>
                                             <th>Nama Pasien</th>
-                                            <th>Tanggal Lahir</th>
+                                            <th>No Kartu BPJS</th>
                                             <th>Alamat</th>
-                                            <th>Penanggung Jawab</th>
                                             <th>No. HP</th>
                                             <th>Dokter PJ</th>
+                                            <th>Poli</th>
+                                            <th>Diagnosa</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -101,47 +82,16 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
-
-        // new export action
-        
-        // $('#dokter').hide();
-        $('#poli').on('change', function() {
-               var kd_poli = $(this).val();
-               if(kd_poli) {
-                   $.ajax({
-                       url: '/poli/'+kd_poli,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(data)
-                       {
-                         if(data){
-                            $('#dokter').empty();
-                            $('#dokter').append('<option hidden value="">Pilih Dokter</option>'); 
-                            $.each(data, function(key, dokter){
-                                $('select[name="dokter"]').append('<option value="'+ dokter.kd_dokter +'">' + dokter.nm_dokter+ '</option>');
-                            });
-                        }else{
-                            $('#dokter').empty();
-                        }
-                     }
-                   });
-               }else{
-                 $('#dokter').empty();
-               }
-        });
-
+    
         load_data();
-        function load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli) {
+        function load_data(tgl_pertama, tgl_kedua, poli) {
           $('#table-kunjungan').DataTable({
             ajax: {
-                url:'/kunjungan/json',
+                url:'/ranap/laporan/json',
                 dataType:'json',
                 data: {
                         tgl_pertama:tgl_pertama,
                         tgl_kedua:tgl_kedua,
-                        kd_dokter:kd_dokter,
-                        status:status,
                         poli:poli,
                     },
                 },
@@ -198,13 +148,16 @@
                 {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
             ],
             columns:[
+                {data:'no_rawat', name:'no_rawat'},
                 {data:'tgl_registrasi', name:'tgl_registrasi'},
+                {data:'no_ktp', name:'no_ktp'},
                 {data:'nm_pasien', name:'nm_pasien'},
-                {data:'tgl_lahir', name:'tgl_lahir'},
+                {data:'no_peserta', name:'no_peserta'},
                 {data:'alamat', name:'alamat'},
-                {data:'p_jawab', name:'p_jawab'},
                 {data:'no_tlp', name:'no_tlp'},
                 {data:'nm_dokter', name:'nm_dokter'},
+                {data:'nm_sps', name:'nm_sps'},
+                {data:'diagnosa', name:'diagnosa'},
                 ],
             });
         }
@@ -212,12 +165,7 @@
         $('#cari').click(function(){
             var tgl_pertama = $('#tgl_pertama').val();
             var tgl_kedua = $('#tgl_kedua').val();
-            var kd_dokter = $('#dokter').val();
-            var status= $('#status').val();
-            var poli= $('#poli').val();
-            var namaPoli= $('#poli option:selected').text();
-             
-            console.log(status);
+            var poli= $('#poli option:selected').text();
 
             if (tgl_pertama != '' &&  tgl_kedua != ''){
                 var months = new Array(12);
@@ -244,8 +192,8 @@
                 month2 = date2.getMonth();
                 year2 = date2.getFullYear();
                 $('#table-kunjungan').DataTable().destroy();
-                $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2+'</strong>'+' : Poli '+namaPoli);
-                load_data(tgl_pertama, tgl_kedua, kd_dokter, status, poli);                
+                $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2);
+                load_data(tgl_pertama, tgl_kedua, poli);                
 
             }else{
                 toastr.error('Lengkapi Pilihan Pencarian');

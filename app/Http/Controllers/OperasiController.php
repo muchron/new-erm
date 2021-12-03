@@ -74,12 +74,12 @@ class OperasiController extends Controller
                     });
             } else {
                 $data = Operasi::with('paketOperasi')
-                    ->where('tgl_operasi', $sekarang->toDateString());
+                    ->where('tgl_operasi', '>=', $sekarang->toDateString() . ' 00:00:00');
             }
         }
         return DataTables::of($data)
             ->filter(function ($query) use ($request) {
-                if ($request->has('search') && !is_null($request->get('search')['value'])) {
+                if ($request->has('search') && $request->get('search')['value']) {
                     return $query->whereHas('dokter', function ($query) use ($request) {
                         $query->where('nm_dokter', 'like', '%' . $request->get('search')['value'] . '%');
                     });
@@ -88,7 +88,7 @@ class OperasiController extends Controller
             ->editColumn('tgl_operasi', function ($data) {
                 return Carbon::parse($data->tgl_operasi)->translatedFormat('d F Y (H:i:s)');
             })
-            ->editColumn('nama_operasi', function ($data) {
+            ->editColumn('nm_perawatan', function ($data) {
                 return $data->paketOperasi->nm_perawatan;
             })
             ->editColumn('dokter', function ($data) {

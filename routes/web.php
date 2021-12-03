@@ -8,6 +8,8 @@ use App\Models\RegPeriksa;
 use App\Models\DiagnosaPasien;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RalanController;
+use App\Http\Controllers\RanapController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\OperasiController;
 use App\Http\Controllers\LaporanIGDController;
@@ -53,8 +55,14 @@ Route::get('/rekammedis/penyakit/json', [LaporanDiagnosaPenyakitController::clas
 Route::get('/igd', [LaporanIGDController::class, 'index']);
 Route::get('/igd/json', [LaporanIGDController::class, 'json']);
 
-Route::get('/kunjungan', [KunjunganRalanController::class, 'index']);
-Route::get('/kunjungan/json', [KunjunganRalanController::class, 'json']);
+Route::get('/ralan', [RalanController::class, 'index']);
+Route::get('/ralan/json', [RalanController::class, 'json']);
+Route::get('/ralan/laporan', [RalanController::class, 'viewLaporanBpjs']);
+Route::get('/ralan/laporan/json', [RalanController::class, 'jsonLaporanBpjs']);
+
+Route::get('/ranap', [RanapController::class, 'index']);
+Route::get('/ranap/json', [RanapController::class, 'jsonRanap']);
+
 
 Route::get('/persalinan', [PersalinanController::class, 'index']);
 Route::get('/persalinan/json', [PersalinanController::class, 'json']);

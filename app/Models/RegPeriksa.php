@@ -13,6 +13,7 @@ class RegPeriksa extends Model
 {
     use HasFactory;
     protected $table = "reg_periksa";
+
     public function diagnosaPasien()
     {
         return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
@@ -33,8 +34,18 @@ class RegPeriksa extends Model
         return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
     }
 
+    public function penjab()
+    {
+        return $this->belongsTo(Penjab::class, 'kd_pj', 'kd_pj');
+    }
+
     public function spesialis()
     {
         return $this->hasOneThrough(Spesialis::class, Dokter::class, 'kd_sps', 'kd_sps', 'kd_dokter');
+    }
+
+    public function kamarInap()
+    {
+        return $this->belongsTo(KamarInap::class, 'no_rawat', 'no_rawat');
     }
 }

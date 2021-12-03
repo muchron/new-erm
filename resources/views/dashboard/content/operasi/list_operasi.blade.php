@@ -150,7 +150,7 @@ $(document).ready(function(){
             columns: [
                 { data: 'no_rawat', name: 'no_rawat',},
                 { data: 'tgl_operasi', name: 'tgl_operasi',},
-                { data: 'nama_operasi', name: 'nama_operasi',},
+                { data: 'nm_perawatan', name: 'nm_perawatan',},
                 { data: 'dokter', name: 'dokter',},
                 { data: 'dokterAnestesi', name: 'dokterAnestesi',},
                 { data: 'dokterAnak', name: 'dokterAnak',},

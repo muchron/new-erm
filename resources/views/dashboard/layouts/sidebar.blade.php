@@ -84,8 +84,8 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item has-treeview {{Request::is('kunjungan*') ? 'menu-is-opening menu-open' : '' }}">
-          <a href="#" class="nav-link {{Request::is('kunjungan*') ? 'active' : '' }}">
+        <li class="nav-item has-treeview {{Request::is('ralan*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('ralan*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-user-nurse"></i>
             <p>
               Kunjungan Rawat Jalan
@@ -94,9 +94,38 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{'/kunjungan'}}" class="nav-link">
-                <i class="far fa-circle nav-icon {{Request::is('kunjungan*') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+              <a href="{{'/ralan'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('ralan') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>Status Lama / Baru</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{'/ralan/laporan'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('ralan/laporan') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Laporan BPJS</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item has-treeview {{Request::is('ranap*') ? 'menu-is-opening menu-open' : '' }}">
+          <a href="#" class="nav-link {{Request::is('ranap*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-procedures"></i>
+            <p>
+              Kunjungan Rawat Inap
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{'/ranap'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('ranap') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Status Lama / Baru</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{'/ralan/laporan'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('ranap/laporan') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Laporan BPJS</p>
               </a>
             </li>
           </ul>
