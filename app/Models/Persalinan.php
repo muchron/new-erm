@@ -25,6 +25,11 @@ class Persalinan extends Model
         return $this->belongsTo(RawatInap::class, 'kd_jenis_prw', 'kd_jenis_prw');
     }
 
+    // public function penjab()
+    // {
+    //     return $this->belongsTo(Penjab::class, 'kd_pj', 'kd_pj');
+    // }
+
     public function pembiayaan()
     {
         return $this->hasOneThrough(

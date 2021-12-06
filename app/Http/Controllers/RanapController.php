@@ -29,36 +29,24 @@ class RanapController extends Controller
     public function jsonRanap(Request $request)
     {
         $tanggal = new Carbon('this month');
-        $data[] = '';
+        $data = RegPeriksa::select('no_rawat', 'tgl_registrasi', 'kd_dokter', 'no_rkm_medis')
+            ->where('status_lanjut', 'Ranap')
+            ->whereHas('penjab', function ($query) {
+                $query->where('png_jawab', 'like', '%bpjs%');
+            })
+            ->whereHas('kamarInap', function ($query) {
+                $query->where('stts_pulang', '!=', 'Pindah Kamar');
+            })
+            ->whereHas('dokter.spesialis', function ($query) {
+                $query->whereIn('kd_sps', ['S0001', 'S0003']);
+            })
+            ->groupBy('no_rawat');
+
         if ($request->ajax()) {
             if ($request->tgl_pertama && $request->tgl_kedua) {
-                $data = RegPeriksa::select('no_rawat', 'tgl_registrasi', 'kd_dokter', 'no_rkm_medis')
-                    ->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
-                    ->where('status_lanjut', 'Ranap')
-                    ->whereHas('penjab', function ($query) {
-                        $query->where('png_jawab', 'like', '%bpjs%');
-                    })
-                    ->whereHas('kamarInap', function ($query) {
-                        $query->where('stts_pulang', '!=', 'Pindah Kamar');
-                    })
-                    ->whereHas('dokter.spesialis', function ($query) {
-                        $query->whereIn('kd_sps', ['S0001', 'S0003']);
-                    })
-                    ->groupBy('no_rawat');
+                $data->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua]);
             } else {
-                $data = RegPeriksa::select('no_rawat', 'tgl_registrasi', 'kd_dokter', 'no_rkm_medis')
-                    ->whereBetween('tgl_registrasi', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()])
-                    ->where('status_lanjut', 'Ranap')
-                    ->whereHas('penjab', function ($query) {
-                        $query->where('png_jawab', 'like', '%bpjs%');
-                    })
-                    ->whereHas('kamarInap', function ($query) {
-                        $query->where('stts_pulang', '!=', 'Pindah Kamar');
-                    })
-                    ->whereHas('dokter.spesialis', function ($query) {
-                        $query->whereIn('kd_sps', ['S0001', 'S0003']);
-                    })
-                    ->groupBy('no_rawat');
+                $data->whereBetween('tgl_registrasi', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()]);
             }
         }
 
@@ -95,7 +83,7 @@ class RanapController extends Controller
             })
             ->editColumn('tgl_keluar', function ($data) use ($tanggal) {
                 if ($data->kamarInap->tgl_keluar == '0000-00-00') {
-                    return 'Belum Pulang';
+                    return '<span class="badge badge-warning">Belum Pulang</span>';
                 } else {
                     return $tanggal->parse($data->kamarInap->tgl_keluar)->translatedFormat('d F Y');
                 }
@@ -110,6 +98,7 @@ class RanapController extends Controller
             ->editColumn('kamar', function ($data) {
                 return $data->kamarInap->kd_kamar;
             })
+            ->rawColumns(['tgl_keluar'])
             ->make(true);
     }
 }

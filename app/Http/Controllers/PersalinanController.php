@@ -28,19 +28,23 @@ class PersalinanController extends Controller
         $data = '';
         $tanggal = new Carbon('this month');
 
+        $data = Persalinan::whereHas('rawatInap', function ($query) {
+            $query->where('nm_perawatan', 'like', '%Partus%');
+        })->orderBy('tgl_perawatan', 'ASC');
+
         if ($request->ajax()) {
             if ($request->tgl_pertama && $request->tgl_kedua) {
-                $data = Persalinan::whereBetween('tgl_perawatan', [$request->tgl_pertama, $request->tgl_kedua])
-                    ->whereHas('rawatInap', function ($query) {
-                        $query->where('nm_perawatan', 'like', '%Partus%');
+                $data->whereBetween('tgl_perawatan', [$request->tgl_pertama, $request->tgl_kedua])
+                    ->whereHas('regPeriksa', function ($query) use ($request) {
+                        $query->whereHas('penjab', function ($query) use ($request) {
+                            $query->where('png_jawab', 'like', '%' . $request->pembiayaan . '%');
+                        });
                     })
-                    ->orderBy('tgl_perawatan', 'ASC');
+                    ->whereHas('dokter', function ($query) use ($request) {
+                        $query->where('kd_dokter', $request->dokter);
+                    });
             } else {
-                $data = Persalinan::whereBetween('tgl_perawatan', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()])
-                    ->whereHas('rawatInap', function ($query) {
-                        $query->where('nm_perawatan', 'like', '%Partus%');
-                    })
-                    ->orderBy('tgl_perawatan', 'ASC');
+                $data->whereBetween('tgl_perawatan', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()]);
             }
         }
 

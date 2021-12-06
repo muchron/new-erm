@@ -21,7 +21,21 @@
                                 <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{$dateNow}}"/>
                             </div>
                         </div>
+                        <div class="col-3">
+                            <select name="dokter" id="dokter" class="custom-select form-control-border">
+                                <option value="1.101.1112">Semua Dokter</option>
+                                <option value="1.101.1112">dr. Himawan Budityastomo, SpOG</option>
+                                <option value="1.109.1119">dr. Siti Pattihatun Nasyiroh, SpOG</option>
+                            </select>
+                        </div>
                         <div class="col-2">
+                            <select name="pembiayaan" id="pembiayaan" class="custom-select form-control-border">
+                                <option value="">BPJS & UMUM</option>
+                                <option value="bpjs">BPJS</option>
+                                <option value="umum">UMUM</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
                             <button class="btn btn-info" id="cari"><i class="fas fa-search"></i> Cari</button>
                         </div>
                     </div>
@@ -66,17 +80,27 @@
 
 @push('scripts')
 <script>
-$(document).ready(function(){
 
+$(document).ready(function(){
+    
+   
     load_data();
 
-    function load_data(tgl_pertama='', tgl_kedua='', operasi=''){
+    function load_data(tgl_pertama='', tgl_kedua='', dokter='', pembiayaan='' ){
         $('#table-operasi').DataTable({
             processing: true,   
             serverSide: true,
             destroy : false,
             searching : true,
-            ajax: {url:'persalinan/json', data: {tgl_pertama:tgl_pertama, tgl_kedua:tgl_kedua, operasi:operasi} },
+            ajax: {
+                url:'persalinan/json',
+                data: {
+                    tgl_pertama:tgl_pertama,
+                    tgl_kedua:tgl_kedua,
+                    dokter:dokter,
+                    pembiayaan:pembiayaan,
+                }
+            },
             scrollY: "350px",
             scrollX: true,
             scroller : {
@@ -137,17 +161,16 @@ $(document).ready(function(){
     $('#cari').click(function(){
         var tgl_pertama = $('#tgl_pertama').val();
         var tgl_kedua = $('#tgl_kedua').val();
-        var operasi = $('#operasi').val();
-     
+        var dokter = $('#dokter').val();
+        var pembiayaan = $('#pembiayaan').val();
         if (tgl_pertama != '' &&  tgl_kedua != ''){
             $('#table-operasi').DataTable().destroy();
                 toastr.success('Pencarian Selesai');
-                load_data(tgl_pertama, tgl_kedua, operasi);           
+                load_data(tgl_pertama, tgl_kedua, dokter, pembiayaan);           
         }else{
             alert('Both Date is required');
         }
     });
-
 });
 </script>
 @endpush

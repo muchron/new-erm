@@ -9,7 +9,6 @@ class Penjab extends Model
 {
     use HasFactory;
     protected $table = "penjab";
-    // protected $primaryKey = "kd_pj";
 
     function regPeriksa()
     {

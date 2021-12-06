@@ -123,7 +123,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{'/ralan/laporan'}}" class="nav-link">
+              <a href="{{'/ranap/laporan'}}" class="nav-link">
                 <i class="far fa-circle nav-icon {{Request::is('ranap/laporan') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
                 <p>Laporan BPJS</p>
               </a>
