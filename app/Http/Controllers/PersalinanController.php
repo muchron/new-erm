@@ -41,7 +41,7 @@ class PersalinanController extends Controller
                         });
                     })
                     ->whereHas('dokter', function ($query) use ($request) {
-                        $query->where('kd_dokter', $request->dokter);
+                        $query->where('kd_dokter', 'like', '%' . $request->dokter . '%');
                     });
             } else {
                 $data->whereBetween('tgl_perawatan', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()]);

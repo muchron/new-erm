@@ -84,7 +84,7 @@
     $(document).ready(function(){
     
         load_data();
-        function load_data(tgl_pertama, tgl_kedua, poli) {
+        function load_data(tgl_pertama, tgl_kedua, poli='') {
           $('#table-kunjungan').DataTable({
             ajax: {
                 url:'/ralan/laporan/json',
@@ -143,9 +143,9 @@
                                 search: 'Cari Pasien : ',
                 },
             buttons: [
-                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
-                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
-                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{-{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan-{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan-{{date("dmy")}}'},
             ],
             columns:[
                 {data:'no_rawat', name:'no_rawat'},
@@ -165,7 +165,7 @@
         $('#cari').click(function(){
             var tgl_pertama = $('#tgl_pertama').val();
             var tgl_kedua = $('#tgl_kedua').val();
-            var poli= $('#poli option:selected').text();
+            var poli= $('#poli').val();
 
             if (tgl_pertama != '' &&  tgl_kedua != ''){
                 var months = new Array(12);

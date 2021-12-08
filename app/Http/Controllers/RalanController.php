@@ -35,10 +35,8 @@ class RalanController extends Controller
                     ->where('stts', '!=', 'Batal')
                     ->whereIn('kd_poli', ['P001', 'P003', 'P008', 'P007', 'P009'])
                     ->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
-                    ->whereHas('dokter', function ($query) use ($request) {
-                        if ($request->poli != '') {
-                            $query->where('kd_sps', $request->poli);
-                        }
+                    ->whereHas('dokter.spesialis', function ($query) use ($request) {
+                        $query->where('nm_sps', 'like', '%' . $request->poli . '%');
                     })
                     ->whereHas('dokter', function ($query) use ($request) {
                         $query->where('kd_dokter', 'like', '%' . $request->kd_dokter . '%');

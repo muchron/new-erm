@@ -17,9 +17,6 @@ class OperasiController extends Controller
         $sekarang = $tanggal->now();
         $awalBulan = $tanggal->startOfMonth();
 
-
-        // dd(json_encode($sc));
-
         $label = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
         $dataCaesar = [];
@@ -41,8 +38,6 @@ class OperasiController extends Controller
             $dataCaesar[] = $sc;
             $dataCuretage[] = $curetage;
         }
-
-
 
         return view('dashboard.content.operasi.list_operasi', [
             'title' => 'Data Operasi',

@@ -2,47 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12">
-            <div class="card card-teal">
-                <div class="card-header">
-                    <p class="card-title border-bottom-0">Pencarian</p>
-                </div>
-                <div class="card-body">
-                    <div class="row m-0">
-                        <div class="col-4">
-                            <label for="">Tanggal</label>
-
-                        </div>
-                        <div class="col-2">
-                            <label for="">Poli</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <input type="date" id="tgl_pertama" class="form-control" name="tgl_pertama" required value={{$tglAwal}}>
-                        </div>
-                        <div class="col-2">
-                            <input type="date" id="tgl_kedua" class="form-control" name="tgl_kedua" required value="{{$tglSekarang}}">
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <select class="custom-select form-control-border" id="poli" name="poli">
-                                  <option value="">Semua Poli</option>
-                                  <option value="anak">Anak</option>
-                                  <option value="kandungan">Kebidanan dan Kandungan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-1">
-                            <button class="btn btn-info text-sm" id="cari" style="width:100%"><i class="fas fa-search"></i> Cari</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <div class="card card-teal">
                 <div class="card-header">
                     <p class="card-title border-bottom-0">{{$title}} </p>
@@ -53,8 +13,19 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            <div class="table-responsive text-sm">
-                                <table class="table table-bordered"  id="table-kunjungan" style="width: 100%" cellspacing="0">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>Tahun</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="tahun-addon"><i class="fas fa-calendar"></i></span>
+                                        </div>
+                                        <input type="text" id="yearpicker" class="form-control datetimepicker-input" data-toggle="datetimepicker" aria-describedby="tahun-addon" data-target="#yearpicker" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped"  id="table-kunjungan" style="width: 100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Bulan</th>
@@ -76,33 +47,34 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
+
+        
+        $('#yearpicker').datetimepicker({
+            format: "YYYY",
+            useCurrent: false,
+            viewMode: "years"
+        });
+
     
         load_data();
-        function load_data(tgl_pertama, tgl_kedua, poli) {
+        function load_data(tahun) {
           $('#table-kunjungan').DataTable({
             ajax: {
-                url:'/ranap/laporan/json',
+                url:'/ranap/bayi/json',
                 dataType:'json',
                 data: {
-                        tgl_pertama:tgl_pertama,
-                        tgl_kedua:tgl_kedua,
-                        poli:poli,
+                        tahun:tahun,
                     },
                 },
             processing: true,
             serverSide: true,
             destroy: false,
             deferRender:true,
-            lengthChange: true,
+            lengthChange: false,
             ordering:false,
-            searching : true,
+            searching : false,
             stateSave: true,
-            scrollY: 300,
-            scrollX: true,
-            scroller : {
-                loadingIndicator: true
-            },
-            paging:true,
+            paging:false,
             dom: 'Blfrtip',
             initComplete: function(settings, json) {
                                 toastr.success('Data telah dimuat', 'Berhasil');
@@ -120,38 +92,17 @@
                                                 _: '%d baris data telah disalin',
                                             },
                             },
-                    lengthMenu: '<div class="text-md mt-3">Tampilkan <select>'+
-                                    '<option value="50">50</option>'+
-                                    '<option value="100">100</option>'+
-                                    '<option value="200">200</option>'+
-                                    '<option value="250">250</option>'+
-                                    '<option value="500">500</option>'+
-                                    '<option value="-1">Semua</option>'+
-                                    '</select> Baris',
-                    paginate: {
-                                    "first":      "Pertama",
-                                    "last":       "Terakhir",
-                                    "next":       "Selanjutnya",
-                                    "previous":   "Sebelumnya"
-                                },
-                                search: 'Cari Pasien : ',
                 },
             buttons: [
-                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
-                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
-                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-kunjungan-pasien-rawat-jalan{{date("dmy")}}'},
+                {extend: 'copy', text:'<i class="fas fa-copy"></i> Salin',className:'btn btn-info', title: 'laporan-jumlah-pasien-bayi-{{date("dmy")}}'},
+                {extend: 'csv',  text:'<i class="fas fa-file-csv"></i> CSV',className:'btn btn-info', title: 'laporan-jumlah-pasien-bayi-{{date("dmy")}}'},
+                {extend: 'excel', text:'<i class="fas fa-file-excel"></i> Excel',className:'btn btn-info', title: 'laporan-jumlah-pasien-bayi-{{date("dmy")}}'},
             ],
             columns:[
-                {data:'no_rawat', name:'no_rawat'},
-                {data:'tgl_registrasi', name:'tgl_registrasi'},
-                {data:'no_ktp', name:'no_ktp'},
-                {data:'nm_pasien', name:'nm_pasien'},
-                {data:'no_peserta', name:'no_peserta'},
-                {data:'alamat', name:'alamat'},
-                {data:'no_tlp', name:'no_tlp'},
-                {data:'nm_dokter', name:'nm_dokter'},
-                {data:'nm_sps', name:'nm_sps'},
-                {data:'diagnosa', name:'diagnosa'},
+                {data:'bulan', name:'bulan'},
+                {data:'bayiPerawatan', name:'bayiPerawatan'},
+                {data:'bayiSehat', name:'bayiSehat'},
+                {data:'semuaBayi', name:'semuaBayi'},
                 ],
             });
         }

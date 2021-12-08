@@ -40,6 +40,12 @@
      .table tr td {
         white-space: nowrap;
     }
+    input[type=text], input[type=date], input[type=search]{
+      border-radius: 0;
+    }
+    button{
+      border-radius: 0 !important;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">

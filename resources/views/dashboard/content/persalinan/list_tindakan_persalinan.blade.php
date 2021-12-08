@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-3">
                             <select name="dokter" id="dokter" class="custom-select form-control-border">
-                                <option value="1.101.1112">Semua Dokter</option>
+                                <option value="">Semua Dokter</option>
                                 <option value="1.101.1112">dr. Himawan Budityastomo, SpOG</option>
                                 <option value="1.109.1119">dr. Siti Pattihatun Nasyiroh, SpOG</option>
                             </select>

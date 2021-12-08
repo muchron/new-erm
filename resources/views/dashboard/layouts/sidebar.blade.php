@@ -128,6 +128,12 @@
                 <p>Laporan BPJS</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{'/ranap/bayi'}}" class="nav-link">
+                <i class="far fa-circle nav-icon {{Request::is('ranap/bayi') ? 'fas fa-circle text-teal' : 'far fa-circle' }}"></i>
+                <p>Pasien Bayi</p>
+              </a>
+            </li>
           </ul>
         </li>
       </ul>

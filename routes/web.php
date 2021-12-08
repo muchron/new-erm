@@ -61,10 +61,12 @@ Route::get('/ralan/json', [RalanController::class, 'json']);
 Route::get('/ralan/laporan', [RalanController::class, 'viewLaporanBpjs']);
 Route::get('/ralan/laporan/json', [RalanController::class, 'jsonLaporanBpjs']);
 
+Route::get('/ranap', [RanapController::class, 'index']);
 Route::get('/ranap/json', [RanapController::class, 'jsonRanap']);
 Route::get('/ranap/laporan', [RanapController::class, 'laporanBpjs']);
 Route::get('/ranap/laporan/json', [RanapController::class, 'jsonRanap']);
 Route::get('/ranap/bayi', [PasienBayiController::class, 'index']);
+Route::get('/ranap/bayi/json', [PasienBayiController::class, 'json']);
 
 
 Route::get('/persalinan', [PersalinanController::class, 'index']);

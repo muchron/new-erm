@@ -11,6 +11,21 @@ use Yajra\DataTables\DataTables;
 
 class RanapController extends Controller
 {
+    public function index()
+    {
+        $tanggal = new Carbon('this month');
+        return view(
+            'dashboard.content.ranap.laporan_kunjungan_ranap',
+            [
+                'title' => 'Laporan Rawat Inap',
+                'bigTitle' => 'Laporan Rawat Inap',
+                'month' => $tanggal->now()->monthName,
+                'tglAwal' => $tanggal->startOfMonth()->toDateString(),
+                'tglSekarang' => $tanggal->now()->toDateString(),
+            ]
+        );
+    }
+
     public function laporanBpjs()
     {
         $tanggal = new Carbon('this month');
