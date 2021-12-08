@@ -165,7 +165,7 @@
         $('#cari').click(function(){
             var tgl_pertama = $('#tgl_pertama').val();
             var tgl_kedua = $('#tgl_kedua').val();
-            var poli= $('#poli option:selected').text();
+            var poli= $('#poli').val();
 
             if (tgl_pertama != '' &&  tgl_kedua != ''){
                 var months = new Array(12);

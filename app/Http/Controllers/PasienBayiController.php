@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Yajra\DataTables\DataTables;
 
+use function PHPUnit\Framework\isNull;
+
 class PasienBayiController extends Controller
 {
     public function index()
@@ -28,38 +30,76 @@ class PasienBayiController extends Controller
         ]);
     }
 
-    public function json()
+    public function json(Request $request)
     {
         $tanggal = new Carbon();
         $semuaBayi[] = '';
         $bayiPerawatan[] = '';
-        for ($i = 1; $i <= 12; $i++) {
 
-            $semuaBayi = PasienBayi::whereHas('pasienBayi', function ($query) use ($i) {
-                $query->whereYear('tgl_lahir', 2021);
+        if ($request->ajax()) {
+
+            $tahun = $request->tahun ? $request->tahun : date('Y');
+
+            for ($i = 1; $i <= 12; $i++) {
+                $semuaBayi = PasienBayi::whereHas('pasienBayi', function ($query) use ($i, $tahun) {
+                    $query->whereYear('tgl_lahir', $tahun);
+                    $query->whereMonth('tgl_lahir', $i);
+                });
+
+                $bayiPerawatan = KamarInap::where('kd_kamar', 'like', '%BY%')
+                    ->where('stts_pulang', '!=', 'Pindah Kamar')
+                    ->whereYear('tgl_keluar', $tahun)
+                    ->whereMonth('tgl_keluar', $i);
+
+                $jmlSemuaBayi = $semuaBayi->count();
+                $jmlBayiPerawatan = $bayiPerawatan->count();
+                $jmlBayiSehat = $jmlSemuaBayi - $jmlBayiPerawatan;
+
+                $indexBulan = $tanggal->month($i)->translatedFormat('F');
+
+                $bayi["$indexBulan"] = (object)[
+                    'bulan' => $indexBulan,
+                    'semuaBayi' => $jmlSemuaBayi,
+                    'bayiPerawatan' => $jmlBayiPerawatan,
+                    'bayiSehat' => $jmlBayiSehat
+                ];
+            }
+        }
+        return DataTables::of($bayi)->make(true);
+    }
+
+    public function getTahun($tahun)
+    {
+
+        $tanggal = new Carbon();
+        $semuaBayi[] = '';
+        $bayiPerawatan[] = '';
+
+        for ($i = 1; $i <= 12; $i++) {
+            $semuaBayi = PasienBayi::whereHas('pasienBayi', function ($query) use ($i, $tahun) {
+                $query->whereYear('tgl_lahir', $tahun);
                 $query->whereMonth('tgl_lahir', $i);
             });
 
             $bayiPerawatan = KamarInap::where('kd_kamar', 'like', '%BY%')
                 ->where('stts_pulang', '!=', 'Pindah Kamar')
-                ->whereYear('tgl_keluar', 2021)
+                ->whereYear('tgl_keluar', $tahun)
                 ->whereMonth('tgl_keluar', $i);
 
             $jmlSemuaBayi = $semuaBayi->count();
             $jmlBayiPerawatan = $bayiPerawatan->count();
             $jmlBayiSehat = $jmlSemuaBayi - $jmlBayiPerawatan;
 
-            $bulan = $tanggal->month($i)->translatedFormat('F');
+            $indexBulan = $tanggal->month($i)->translatedFormat('F');
 
-            $bayi["$bulan"] = (object)[
-                'bulan' => $bulan,
+            $bayi["$indexBulan"] = (object)[
+                'bulan' => $indexBulan,
                 'semuaBayi' => $jmlSemuaBayi,
                 'bayiPerawatan' => $jmlBayiPerawatan,
                 'bayiSehat' => $jmlBayiSehat
             ];
         }
-        // return json_encode($bayi);
 
-        return DataTables::of($bayi)->make(true);
+        return $bayi;
     }
 }

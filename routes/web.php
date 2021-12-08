@@ -67,6 +67,7 @@ Route::get('/ranap/laporan', [RanapController::class, 'laporanBpjs']);
 Route::get('/ranap/laporan/json', [RanapController::class, 'jsonRanap']);
 Route::get('/ranap/bayi', [PasienBayiController::class, 'index']);
 Route::get('/ranap/bayi/json', [PasienBayiController::class, 'json']);
+Route::get('/ranap/bayi/{tahun}', [PasienBayiController::class, 'getTahun']);
 
 
 Route::get('/persalinan', [PersalinanController::class, 'index']);

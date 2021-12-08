@@ -55,6 +55,7 @@
             viewMode: "years"
         });
 
+        
     
         load_data();
         function load_data(tahun) {
@@ -107,43 +108,12 @@
             });
         }
 
-        $('#cari').click(function(){
-            var tgl_pertama = $('#tgl_pertama').val();
-            var tgl_kedua = $('#tgl_kedua').val();
-            var poli= $('#poli option:selected').text();
-
-            if (tgl_pertama != '' &&  tgl_kedua != ''){
-                var months = new Array(12);
-                    months[0] = "Januari";
-                    months[1] = "Februari";
-                    months[2] = "Maret";
-                    months[3] = "April";
-                    months[4] = "Mei";
-                    months[5] = "Juni";
-                    months[6] = "Juli";
-                    months[7] = "Agustus";
-                    months[8] = "September";
-                    months[9] = "Oktober";
-                    months[10] = "November";
-                    months[11] = "Desember";
-                var date1 = new Date(tgl_pertama);
-                var date2 = new Date(tgl_kedua);
-                
-                day1 = date1.getDate();
-                month1 = date1.getMonth();
-                year1 = date1.getFullYear();
-
-                day2 = date2.getDate();
-                month2 = date2.getMonth();
-                year2 = date2.getFullYear();
+        $('#yearpicker').on('change.datetimepicker', function(){
+                var tahun = $(this).val();
                 $('#table-kunjungan').DataTable().destroy();
-                $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2);
-                load_data(tgl_pertama, tgl_kedua, poli);                
+                load_data(tahun);  
+        });
 
-            }else{
-                toastr.error('Lengkapi Pilihan Pencarian');
-            }
-    });
 });
 </script>
     

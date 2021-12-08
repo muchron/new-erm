@@ -84,7 +84,7 @@
     $(document).ready(function(){
     
         load_data();
-        function load_data(tgl_pertama, tgl_kedua, poli='') {
+        function load_data(tgl_pertama, tgl_kedua, poli) {
           $('#table-kunjungan').DataTable({
             ajax: {
                 url:'/ralan/laporan/json',
