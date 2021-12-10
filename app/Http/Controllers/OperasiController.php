@@ -66,6 +66,12 @@ class OperasiController extends Controller
                         } else if ($request->operasi == 'curetage') {
                             $query->where('nm_perawatan', 'like', '%Curetage%');
                         }
+                    })
+                    ->whereHas('dokter', function ($query) use ($request) {
+                        $query->where('nm_dokter', 'like', '%' . $request->dokter . '%');
+                    })
+                    ->whereHas('pembiayaan', function ($query) use ($request) {
+                        $query->where('png_jawab', 'like', '%' . $request->pembiayaan . '%');
                     });
             } else {
                 $data = Operasi::with('paketOperasi')

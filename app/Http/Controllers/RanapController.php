@@ -59,7 +59,10 @@ class RanapController extends Controller
 
         if ($request->ajax()) {
             if ($request->tgl_pertama && $request->tgl_kedua) {
-                $data->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua]);
+                $data->whereBetween('tgl_registrasi', [$request->tgl_pertama, $request->tgl_kedua])
+                    ->whereHas('dokter.spesialis', function ($query) use ($request) {
+                        $query->where('nm_sps', 'like', '%' . $request->poli . '%');
+                    });
             } else {
                 $data->whereBetween('tgl_registrasi', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()]);
             }

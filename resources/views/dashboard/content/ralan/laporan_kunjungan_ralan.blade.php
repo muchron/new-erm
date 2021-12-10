@@ -191,6 +191,7 @@
                 day2 = date2.getDate();
                 month2 = date2.getMonth();
                 year2 = date2.getFullYear();
+
                 $('#table-kunjungan').DataTable().destroy();
                 $('#bulan').html('<strong>'+day1+' '+months[month1]+' '+year1+' s/d '+day2+' '+months[month2]+' '+year2);
                 load_data(tgl_pertama, tgl_kedua, poli);                

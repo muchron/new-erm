@@ -119,7 +119,7 @@ class RalanController extends Controller
                         $query->where('prioritas', 1);
                     })
                     ->whereHas('dokter.spesialis', function ($query) use ($request) {
-                        // $query->where('nm_sps', 'like', '%' . $request->poli . '%');
+                        $query->where('nm_sps', 'like', '%' . $request->poli . '%');
                     })
                     ->groupBy('no_rawat');
             } else {

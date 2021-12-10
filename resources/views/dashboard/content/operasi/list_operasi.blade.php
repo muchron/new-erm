@@ -5,57 +5,65 @@
     <div class="col-12">
         <div class="card card-teal">
             <div class="card-header">
-                <h1 class="card-title">Pencarian Data Operasi</h1>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label>Date:</label>
-                    <div class="row">
-
-                        <div class="col-3">
-                            <div class="input-group">
-                                <input type="date" class="form-control" id="tgl_pertama" name="tgl_pertama" value="{{$dateStart}}"/>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="input-group">
-                                <input type="date" class="form-control" id="tgl_kedua" name="tgl_kedua" value="{{$dateNow}}"/>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <select name="operasi" id="operasi" class="custom-select form-control-border">
-                                <option hidden>Tindakan Operasi</option>
-                                <option value="" >Semua Tindakan</option>
-                                <option value="sc">Sectio Caesaria / SC</option>
-                                <option value="curetage">Curetage</option>
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-info" id="cari"><i class="fas fa-search"></i> Cari</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="card card-teal">
-            <div class="card-header">
                 <h3 class="card-title">{{$title}}</h3>
                 <div class="card-tools" id="bulan">
                     <span><strong>{{$month}}</strong></span>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Tanggal :</label>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>Tindakan :</label>
+                            <select name="operasi" id="operasi" class="custom-select form-control-border">
+                                <option value="" >Semua Tindakan</option>
+                                <option value="sc">Sectio Caesaria / SC</option>
+                                <option value="curetage">Curetage</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Dokter :</label>
+                            <select name="dokter" id="dokter" class="custom-select form-control-border">
+                                <option value="" >Semua Dokter</option>
+                                <option value="himawan">dr. Himawan Budityastomo, SpOG</option>
+                                <option value="siti">dr. Siti Pattihatun Nasyiroh, SpOG</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>Pembiayaan :</label>
+                            <select name="pembiayaan" id="pembiayaan" class="custom-select form-control-border">
+                                <option value="" >BPJS & Umum</option>
+                                <option value="bpjs">BPJS</option>
+                                <option value="umum">UMUM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-1"> 
+                        <div class="form-group">
+                            <button class="btn btn-info mt-4" id="cari"><i class="fas fa-search"></i> Cari</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="table-responsive text-sm">
@@ -84,18 +92,53 @@
 
 @push('scripts')
 <script>
+var tgl_pertama='';
+var tgl_kedua='';
+
 $(document).ready(function(){
+
+    $('#tanggal').daterangepicker({
+        locale : {
+            language: 'id' ,
+            applyLabel: 'Terapkan',
+            cancelLabel: 'Batal',
+            format:'DD/MM/YYYY',
+            daysOfWeek: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Ming'],
+            monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        },
+            startDate: moment().startOf('month'),
+            autoclose:true,
+            showDropdowns: true,
+            minYear: 2019,
+            maxYear: {{date('Y')+1}},
+    });
+
+    $('#tanggal').on('apply.daterangepicker', function (env, picker) {
+        tgl_pertama = picker.startDate.format('YYYY-MM-DD');
+        tgl_kedua = picker.endDate.format('YYYY-MM-DD');
+        $('#bulan').html('<strong>'+picker.endDate.format('DD MMMM YYYY')+' s/d </strong>');
+        $('#table-operasi').DataTable().destroy();
+        load_data(tgl_pertama, tgl_kedua, operasi); 
+    })
 
     load_data();
 
-    function load_data(tgl_pertama, tgl_kedua, operasi){
+    function load_data(tgl_pertama, tgl_kedua, operasi='', dokter='', pembiayaan=''){
+        tgl_pertama = $('#tanggal').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        tgl_kedua = $('#tanggal').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        var operasi = $('#operasi').val();
+        var dokter = $('#dokter').val();
+        var pembiayaan = $('#pembiayaan').val();
+
         $('#table-operasi').DataTable({
             ajax: {
                 url:'operasi/json',
                 data: {
                     tgl_pertama:tgl_pertama,
                     tgl_kedua:tgl_kedua,
-                    operasi:operasi
+                    operasi:operasi,
+                    dokter:dokter,
+                    pembiayaan:pembiayaan,
                 }
             },
             processing: true,   
@@ -171,17 +214,19 @@ $(document).ready(function(){
         });  
     }     
 
-    $('#cari').click(function(){
-        var tgl_pertama = $('#tgl_pertama').val();
-        var tgl_kedua = $('#tgl_kedua').val();
-        var operasi = $('#operasi').val();
-     
-        if (tgl_pertama != '' &&  tgl_kedua != ''){
-            $('#table-operasi').DataTable().destroy();
-                load_data(tgl_pertama, tgl_kedua, operasi);           
-        }else{
-            toastr.error('Lengkapi Pencarian !', 'Gagal');
-        }
+    $('#operasi').change(function(){
+        $('#table-operasi').DataTable().destroy();
+        load_data(tgl_pertama, tgl_kedua, operasi);           
+    });
+
+    $('#dokter').change(function(){  
+        $('#table-operasi').DataTable().destroy();
+        load_data(tgl_pertama, tgl_kedua, operasi, dokter);     
+    });
+
+    $('#pembiayaan').change(function(){  
+        $('#table-operasi').DataTable().destroy();
+        load_data(tgl_pertama, tgl_kedua, operasi, dokter, pembiayaan);     
     });
 
 });
