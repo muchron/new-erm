@@ -88,6 +88,8 @@ var tgl_kedua='';
 
 $(document).ready(function(){
 
+    $('select').prop('disabled', true);
+    
     $('#tanggal').daterangepicker({
         locale : {
             language: 'id' ,
@@ -105,6 +107,9 @@ $(document).ready(function(){
     });
 
     $('#tanggal').on('apply.daterangepicker', function (env, picker) {
+
+        $('select').prop('disabled', false);
+
         tgl_pertama = picker.startDate.format('YYYY-MM-DD');
         tgl_kedua = picker.endDate.format('YYYY-MM-DD');
 

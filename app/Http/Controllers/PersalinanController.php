@@ -34,17 +34,19 @@ class PersalinanController extends Controller
 
         if ($request->ajax()) {
             if ($request->tgl_pertama && $request->tgl_kedua) {
-                $data->whereBetween('tgl_perawatan', [$request->tgl_pertama, $request->tgl_kedua])
+                $data->whereBetween('tgl_perawatan', [$request->tgl_pertama . ' 00:00:00', $request->tgl_kedua . ' 00:00:00'])
                     ->whereHas('regPeriksa', function ($query) use ($request) {
                         $query->whereHas('penjab', function ($query) use ($request) {
                             $query->where('png_jawab', 'like', '%' . $request->pembiayaan . '%');
                         });
                     })
                     ->whereHas('dokter', function ($query) use ($request) {
-                        $query->where('kd_dokter', 'like', '%' . $request->dokter . '%');
+                        if ($request->dokter) {
+                            $query->where('kd_dokter', $request->dokter);
+                        }
                     });
             } else {
-                $data->whereBetween('tgl_perawatan', [$tanggal->startOfMonth()->toDateString(), $tanggal->lastOfMonth()->toDateString()]);
+                $data->whereBetween('tgl_perawatan', [$tanggal->startOfMonth()->toDateString() . ' 00:00:00', $tanggal->lastOfMonth()->toDateString() . ' 00:00:00']);
             }
         }
 
