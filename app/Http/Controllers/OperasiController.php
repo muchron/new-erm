@@ -61,10 +61,14 @@ class OperasiController extends Controller
                 $data = Operasi::whereBetween('tgl_operasi', [$request->tgl_pertama . ' 00:00:00', $request->tgl_kedua . ' 23:59:59'])
                     ->whereHas('paketOperasi', function ($query) use ($request) {
                         if ($request->operasi == 'sc') {
-                            $query->where('nm_perawatan', 'like', '%SC%');
-                            $query->orWhere('nm_perawatan', 'like', '%Sectio Caesaria%');
+                            $query->where('nm_perawatan', 'like', '%sc%');
+                            $query->orWhere('nm_perawatan', 'like', '%sectio%');
                         } else if ($request->operasi == 'curetage') {
-                            $query->where('nm_perawatan', 'like', '%Curetage%');
+                            $query->where('nm_perawatan', 'like', '%curetage%');
+                        } else {
+                            $query->where('nm_perawatan', 'like', '%sc%');
+                            $query->orWhere('nm_perawatan', 'like', '%sectio%');
+                            $query->orWhere('nm_perawatan', 'like', '%curetage%');
                         }
                     })
                     ->whereHas('dokter', function ($query) use ($request) {

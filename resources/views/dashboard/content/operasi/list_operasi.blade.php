@@ -16,19 +16,15 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-3">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label>Tanggal :</label>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off"/>
-                                    </div>
-                                </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off"/>
                             </div>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label>Tindakan :</label>
                             <select name="operasi" id="operasi" class="custom-select form-control-border">
@@ -38,7 +34,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label>Dokter :</label>
                             <select name="dokter" id="dokter" class="custom-select form-control-border">
@@ -48,7 +44,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label>Pembiayaan :</label>
                             <select name="pembiayaan" id="pembiayaan" class="custom-select form-control-border">
@@ -56,11 +52,6 @@
                                 <option value="bpjs">BPJS</option>
                                 <option value="umum">UMUM</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-1"> 
-                        <div class="form-group">
-                            <button class="btn btn-info mt-4" id="cari"><i class="fas fa-search"></i> Cari</button>
                         </div>
                     </div>
                 </div>
@@ -116,7 +107,35 @@ $(document).ready(function(){
     $('#tanggal').on('apply.daterangepicker', function (env, picker) {
         tgl_pertama = picker.startDate.format('YYYY-MM-DD');
         tgl_kedua = picker.endDate.format('YYYY-MM-DD');
-        $('#bulan').html('<strong>'+picker.endDate.format('DD MMMM YYYY')+' s/d </strong>');
+
+        var bulan = new Array(12);
+                    bulan[0] = "Januari";
+                    bulan[1] = "Februari";
+                    bulan[2] = "Maret";
+                    bulan[3] = "April";
+                    bulan[4] = "Mei";
+                    bulan[5] = "Juni";
+                    bulan[6] = "Juli";
+                    bulan[7] = "Agustus";
+                    bulan[8] = "September";
+                    bulan[9] = "Oktober";
+                    bulan[10] = "November";
+                    bulan[11] = "Desember";
+                var tanggal1 = new Date(tgl_pertama);
+                var tanggal2 = new Date(tgl_kedua);
+                
+                hari1 = tanggal1.getDate();
+                bulan1 = tanggal1.getMonth();
+                tahun1 = tanggal1.getFullYear();
+
+                hari2 = tanggal2.getDate();
+                bulan2 = tanggal2.getMonth();
+                tahun2 = tanggal2.getFullYear();
+
+                tgl1 = hari1+' '+bulan[bulan1]+' '+tahun1
+                tgl2 = hari2+' '+bulan[bulan2]+' '+tahun2
+
+        $('#bulan').html('<strong>'+tgl1+' s/d '+tgl2+'</strong>');
         $('#table-operasi').DataTable().destroy();
         load_data(tgl_pertama, tgl_kedua, operasi); 
     })
@@ -124,8 +143,6 @@ $(document).ready(function(){
     load_data();
 
     function load_data(tgl_pertama, tgl_kedua, operasi='', dokter='', pembiayaan=''){
-        tgl_pertama = $('#tanggal').data('daterangepicker').startDate.format('YYYY-MM-DD');
-        tgl_kedua = $('#tanggal').data('daterangepicker').endDate.format('YYYY-MM-DD');
         var operasi = $('#operasi').val();
         var dokter = $('#dokter').val();
         var pembiayaan = $('#pembiayaan').val();
